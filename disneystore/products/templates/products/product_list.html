@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Disney Store Products{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4 text-center">Our Magical Products</h1>
+    <form method="get">
+        <select name="category">
+            <option value="">All Categories</option>
+            {% for cat in categories %}
+                <option value="{{ cat.id }}"
+                    {% if request.GET.category == cat.id|stringformat:"s" %}selected{% endif %}>
+                    {{ cat.name }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <select name="color">
+            <option value="">All Colors</option>
+            {% for col in colors %}
+                <option value="{{ col.id }}"
+                    {% if request.GET.color == col.id|stringformat:"s" %}selected{% endif %}>
+                    {{ col.name }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <input type="number" name="min_price" placeholder="Min Price" value="{{ request.GET.min_price }}">
+        <input type="number" name="max_price" placeholder="Max Price" value="{{ request.GET.max_price }}">
+
+        <button type="submit">Filter</button>
+    </form>
+
+    <ul>
+        {% for product in products %}
+            <li>{{ product.name }} - {{ product.price }}€</li>
+        {% empty %}
+            <li>No products found.</li>
+        {% endfor %}
+    </ul>
+    <div class="row">
+        {% for product in products %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <p class="card-text">{{ product.description }}</p>
+                        <p class="card-text"><strong>${{ product.price }}</strong></p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
