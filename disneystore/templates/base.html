@@ -4,34 +4,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Disney Store{% endblock %}</title>  <!-- Page-specific title -->
+    <title>{% block title %}Welcome to the Disney Store{% endblock %}</title>
 
+    <!-------------------- STYLES -------------------->
     <!-- Import Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="{% static 'styles.css' %}">
-    <link rel="stylesheet" href="{% static 'components/components.css' %}">
-    <link rel="stylesheet" href="{% block extra_css %}{% endblock %}">
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 
-    <!-- Javascript
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
+    <!-- Import the Global Styles-->
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+
+    <!-- Import the Awesome Font-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- ------------------ JQUERY -------------------->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" defer></script>
-    <script src="{% static 'components/components.js' %}" defer></script>
-    <script src="{% block extra_js %}{% endblock %}" defer></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
+
+    <!-------------------- PAGE-SPECIFIC CSS -------------------->
+    {% block extra_css %}{% endblock %}
+    
+    <!-------------------- PAGE SPECIFIC CSS -------------------->
+    {% block extra_js %}{% endblock %}
+
 </head>
 <body>
-    <!-- Navbar -->
-    <div id="navbar"></div>
+    <!-- NAVBAR -->
+    {% include "navigation.html" %}
 
-    <!-- Hero section (optional) -->
-    {% block hero %}{% endblock %}
-
-    <!-- Main content -->
-    <main>
-        {% block content %}{% endblock %}
-    </main>
-
-    <!-- Footer -->
-    <div id="footer"></div>
+    <!-- PAGE HEADER SECTION -->
+    {% block page_header %}
+    <section class="page-header py-5 d-flex align-items-center">
+        <div class="container text-center">
+            <h1 class="page-title display-3 fw-bold mb-3">{% block page_title %} Disney Store {% endblock %}</h1>
+            <h2 class="page-subtitle lead fs-4">{% block page_subtitle %} Where Magic Meets Merchandise {% endblock %}</h2>
+        </div>
+    </section>
+    {% endblock %}
+    
+    <!-- PAGE CONTENT SECTION -->
+    <section class="page-content py-4">
+        <div class="container-xl">
+            {% block content %} {% endblock %}
+        </div>
+    </section>
+        
 </body>
 </html>

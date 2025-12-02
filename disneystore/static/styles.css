@@ -1,0 +1,146 @@
+/* ----- GLOBAL FONT STYLES ----- */
+@font-face {
+    font-family: 'Title';
+    src: url('fonts/Slackey.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Subtitle';
+    src: url('fonts/McLaren-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+h1 {
+    font-family: 'Title', Arial, sans-serif;
+    text-shadow: 2px 2px #122b4e;
+    color: #1d3f72;
+}
+
+h2, h3, h4, h5 {
+    font-family: 'Subtitle', Arial, sans-serif;
+    color: #1d3f72;
+}
+
+p {
+    font-family: 'Subtitle', Arial, sans-serif;
+}
+
+/* ----- PAGE HEADER SECTION ----- */
+/* Background image */
+.page-header {
+background: 
+    url('../static/images/iceage.jpg') center/cover no-repeat;
+position: relative;
+min-height: 40vh;
+overflow: hidden;
+}
+
+/* Background gradient overlay */
+.page-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        45deg,
+        rgba(70, 117, 186, 0.7),
+        rgba(129, 152, 187, 0.7),
+        rgba(181, 201, 232, 0.7)
+    );
+    background-size: 400% 400%;
+    animation: gradientShift 8s ease infinite;
+    z-index: 1;
+}
+
+/* Ensure the content is above the overlay */
+.page-header .container {
+    position: relative;
+    z-index: 2;
+}
+
+/* ----- NAVIGATION BAR ----- */
+/* Navigation bar styles */
+.navbar-logo {
+    height: 60px;
+    width: auto;
+}
+
+.navbar > .container {
+    display: flex;
+    align-items: center !important; /* Important keyword overrides the Boostrap */
+    height: 100%;
+}
+
+.navbar {
+    background: linear-gradient(135deg, #255194 0%, #457dd1 100%);
+    min-height: 70px;
+    display: flex;
+    align-items: center !important;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+/* Change font for all nav bar text */
+.navbar-brand,
+.navbar-nav .nav-link {
+    font-family: 'Subtitle', Arial, sans-serif;
+    color: white;
+}
+
+/* Hover effects for navbar links */
+.navbar-nav .nav-link {
+    transition: all 0.3s ease; /* Smooth transition for hover effects */
+}
+
+/* Make navbar links lighter on hover */
+.navbar-nav .nav-link:hover {
+    background-color: rgba(188, 194, 202, 0.4) !important; /* Light overlay */
+    color: #ffd700 !important; 
+    transform: scale(1.2);
+}
+
+/* Center navigation items horizontally when expanded (desktop view) */
+@media (min-width: 992px) {
+    .navbar-nav {
+        display: flex;
+        justify-content: center; /* centers the items horizontally */
+        width: 100%;
+    }
+    /* Space between items */
+    .navbar-nav .nav-item {
+        margin: 0 30px;
+    }
+}
+
+/* GENERAL BUTTON STYLING */
+.button-general {
+  background-color: #0d6efd;
+  color: white;
+  font-family: 'Subtitle', Arial, sans-serif;
+  padding: 12px 24px;
+  border-radius: 8px;
+  transition: 0.3s ease;
+  display: inline-block;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(13, 110, 253, 0.2);
+}
+.button-general:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(29, 63, 114, 0.5);
+  background-color: #125cca;
+}
+
+/* PAGE CONTENT */
+.page-content .container-xl {
+    max-width: 80% !important;
+    width: 80% !important;
+}

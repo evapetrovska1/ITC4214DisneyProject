@@ -1,56 +1,241 @@
 {% extends "base.html" %}
+{% load static %}
 
+<!-- LOAD THE CSS OF THIS PAGE -->
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'products/products.css' %}">
+{% endblock %}
+
+<!-- LOAD THE JS OF THIS PAGE -->
+{% block extra_js %}
+<script src="{% static 'products/products.js' %}" defer></script>
+{% endblock %}
+
+
+
+<!-- TITLE AND SUBTITLE SECTION -->
 {% block title %}Disney Store Products{% endblock %}
 
+{% block page_title %} Our Magical Collection {% endblock %}
+
+{% block page_subtitle %} Discover enchanting Disney merchandise {% endblock %}
+
+
 {% block content %}
-<div class="container mt-5">
-    <h1 class="mb-4 text-center">Our Magical Products</h1>
-    <form method="get">
-        <select name="category">
-            <option value="">All Categories</option>
-            {% for cat in categories %}
-                <option value="{{ cat.id }}"
-                    {% if request.GET.category == cat.id|stringformat:"s" %}selected{% endif %}>
-                    {{ cat.name }}
-                </option>
-            {% endfor %}
-        </select>
-
-        <select name="color">
-            <option value="">All Colors</option>
-            {% for col in colors %}
-                <option value="{{ col.id }}"
-                    {% if request.GET.color == col.id|stringformat:"s" %}selected{% endif %}>
-                    {{ col.name }}
-                </option>
-            {% endfor %}
-        </select>
-
-        <input type="number" name="min_price" placeholder="Min Price" value="{{ request.GET.min_price }}">
-        <input type="number" name="max_price" placeholder="Max Price" value="{{ request.GET.max_price }}">
-
-        <button type="submit">Filter</button>
-    </form>
-
-    <ul>
-        {% for product in products %}
-            <li>{{ product.name }} - {{ product.price }}€</li>
-        {% empty %}
-            <li>No products found.</li>
-        {% endfor %}
-    </ul>
-    <div class="row">
-        {% for product in products %}
-            <div class="col-md-4 mb-4">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ product.name }}</h5>
-                        <p class="card-text">{{ product.description }}</p>
-                        <p class="card-text"><strong>${{ product.price }}</strong></p>
+<div class="row">
+    
+    <!-- ---------------- FILTERS ON THE LEFT SIDE  ---------------- -->
+    <div class="col-lg-3 col-md-4 my-4">
+        <div class="card shadow-sm border-0">
+            <!-- Create a card to hold the filters -->
+            <div class="card-body">
+                <h4 class="card-title mb-4 text-center"> Filters </h4>
+                
+                <!-- Filters for the categories -->
+                <div class="mb-4">
+                    <h6 class="fw-bold mb-3">
+                        <i class="fas fa-folder me-1"></i> Categories
+                    </h6>
+                    <div class="category-list">
+                        <!-- Loop through the categories and display them (the parent ones) -->
+                        {% for cat in main_categories %}
+                        <div class="category-item mb-2">
+                            <!-- If the parent categories have children, display upon expansion -->
+                            {% if cat.subcategories.exists %}
+                            <!-- Expandable Category -->
+                            <button class="category-header w-100 text-start btn d-flex justify-content-between align-items-center py-2 px-3 rounded mb-2"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#subcat{{ cat.id }}">
+                                <span>{{ cat.name }}</span>
+                                <i class="fas fa-plus"></i>
+                            </button>
+                            
+                            <!-- The collapse functionality -->
+                            <div class="collapse" id="subcat{{ cat.id }}">
+                                <div class="ms-3">
+                                    <a href="#" class="category-link d-block py-1 mb-1 text-decoration-none" data-category="{{ cat.id }}">
+                                        All {{ cat.name }}
+                                    </a>
+                                    {% for subcat in cat.subcategories.all %}
+                                    <a href="#" class="category-link d-block py-1 mb-1 text-decoration-none" data-category="{{ subcat.id }}">
+                                        {{ subcat.name }}
+                                    </a>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            {% else %}
+                            <a href="#" class="category-link d-block py-2 px-3 rounded text-decoration-none mb-2" data-category="{{ cat.id }}">
+                                {{ cat.name }}
+                            </a>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
                     </div>
                 </div>
+                
+                <!-- Colors Filter -->
+                <div class="mb-4">
+                    <h6 class="fw-bold mb-3">
+                        <i class="fas fa-palette me-1"></i> Colors
+                    </h6>
+                    <div class="row g-2">
+                        <!-- Loop through all of the colors -->
+                        {% for color in colors %}
+                        <div class="col-6">
+                            <a href="#" class="color-link d-block text-center text-decoration-none p-2 rounded" data-color="{{ color.id }}">
+                                <!-- Display each color in a circle -->
+                                <div class="mb-1">
+                                    <i class="fas fa-circle fa-lg"></i>
+                                </div>
+                                <small>{{ color.name }}</small>
+                            </a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                
+                <!-- Price Filter -->
+                <div class="mb-4">
+                    <h6 class="fw-bold mb-3">
+                        <i class="fas fa-tag me-1"></i> Price Range
+                    </h6>
+                    
+                    <!-- Minimum price slider -->
+                    <div class="mb-3">
+                        <label class="form-label">
+                            Min Price: €<span id="minPriceValue">{{ min_price|default:0 }}</span>
+                        </label>
+                        <input 
+                            type="range" 
+                            class="form-range" 
+                            id="minPriceSlider" 
+                            min="0" 
+                            max="100" 
+                            value="{{ min_price|default:0 }}">
+                    </div>
+                    
+                    <!-- Max price slider  -->
+                    <div class="mb-3">
+                        <label class="form-label">
+                            Max Price: €<span id="maxPriceValue">{{ max_price|default:100 }}</span>
+                        </label>
+                        <input 
+                            type="range" 
+                            class="form-range" 
+                            id="maxPriceSlider" 
+                            min="100" 
+                            max="300" 
+                            value="{{ max_price|default:100 }}">
+                    </div>
+                </div>
+                
+                <!-- Use get method instead of manually building URLs-->
+                <form id="filterForm" method="get">
+                    <!-- Hidden inputs for JavaScript to store filter values -->
+                    <input type="hidden" name="category" id="categoryInput" value="{{ selected_category|default:'' }}">
+                    <input type="hidden" name="color" id="colorInput" value="{{ selected_color|default:'' }}">
+                    <input type="hidden" name="min_price" id="minPriceInput" value="{{ min_price|default:'' }}">
+                    <input type="hidden" name="max_price" id="maxPriceInput" value="{{ max_price|default:'' }}">
+                    
+                    <!-- Button to apply all of the filters -->
+                    <button class="btn btn-primary w-100" id="applyFiltersBtn">
+                        <i class="fas fa-check me-1"></i> Apply Filters
+                    </button>                
+                </form>
+                
+                <!-- Button to clear all of the filters -->
+                <a href="{% url 'products:product_list' %}" class="btn btn-outline-secondary w-100 mt-2"> <!-- Redirects user to products page (which deletes all current filters)-->
+                    <i class="fas fa-times me-1"></i> Clear All
+                </a>
             </div>
-        {% endfor %}
+        </div>
+    </div>
+
+    <!-- ---------------- PRODUCTS DISPLAY ON THE RIGHT SIDE  ---------------- -->
+    <div class="col-lg-9 col-md-8">
+
+        <!-- Display the current active filters-->
+        <div class="mb-4" id="activeFilters">
+            {% if selected_category or selected_color or min_price or max_price %}
+
+            <div class="d-flex align-items-center mb-2">
+                <span class="me-3">
+                    <i class="fas fa-check-circle me-1"></i> Active Filters:
+                </span>
+                
+                <!-- If category is selected, display it -->
+                {% if selected_category %}
+                <span class="badge bg-primary d-flex align-items-center">
+                    Category: {{ selected_category_name }}
+                    <button class="btn-close btn-close-white ms-1 remove-filter" data-filter="category"></button> <!-- Display an X button -->
+                </span>
+                {% endif %}
+
+                <!-- If color is selected, display it -->
+                {% if selected_color %}
+                <span class="badge bg-primary d-flex align-items-center">
+                    Color: {{ selected_color_name }}
+                    <button class="btn-close btn-close-white ms-1 remove-filter" data-filter="color"></button> <!-- Display an X button -->
+                </span>
+                {% endif %}
+
+                <!-- If min or max price is selected, display it -->
+                {% if min_price or max_price %}
+                <span class="badge bg-primary d-flex align-items-center">
+                    Price:
+                    {% if min_price %} € {{ min_price }} {% endif %}
+                    {% if min_price and max_price %} - {% endif %}
+                    {% if max_price %} € {{ max_price }} {% endif %}
+                    <button class="btn-close btn-close-white ms-1 remove-filter" data-filter="price"></button> <!-- Display an X button -->
+                </span>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- The grid of the products below the active filters -->
+        <div class="row" id="productsContainer">
+            
+            <!-- Loop through all of the products -->
+            {% for product in products %}
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="position-relative">
+                        
+                        <!-- Display the product image at the top of the card (if there is one)-->
+                        {% if product.image %}
+                        <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}" style="height: 200px; object-fit: cover;">
+                        {% else %}
+                        <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                            <i class="fas fa-image fa-3x text-muted"></i>
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Product description in the card body-->
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <p class="card-text text-muted small">{{ product.description|truncatechars:80 }}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="h5 mb-0">€{{ product.price }}</span>
+                            <button class="btn btn-sm btn-primary">
+                                <i class="fas fa-cart-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            {% empty %}
+            <div class="col-12 text-center py-5">
+                <i class="fas fa-box-open fa-3x mb-3 text-muted"></i>
+                <h4>No products found</h4>
+                <p class="text-muted">Try adjusting your filters</p>
+            </div>
+            {% endfor %}
+        </div>
+        
     </div>
 </div>
 {% endblock %}

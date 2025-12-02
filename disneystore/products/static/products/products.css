@@ -1,0 +1,160 @@
+/* 
+----------------------
+PRODUCTS PAGE STYLING
+----------------------
+*/
+
+/* ------------------------------- 
+GLOBAL TYPOGRAPHY FOR FILTERS
+------------------------------- */
+.category-list,
+.color-link,
+.filter-section h6,
+.form-label,
+#filterForm button,
+.btn-outline-secondary {
+    font-family: 'Subtitle', Arial, sans-serif !important;
+}
+
+/* Entire page color */
+.row {
+    background-color: #8198bb;
+    padding: 20px 0;
+    border-radius: 20px;
+}
+
+
+/* ------------------------------- 
+CATEGORY STYLES
+------------------------------- */
+/* Header style */
+.category-header {
+    background: #8198bb;
+    color: white;
+    font-family: 'Subtitle', Arial, sans-serif;
+    border: none;
+}
+
+/* On hover effect */
+.category-header:hover {
+    background: #1d3f72;
+}
+
+/* Filter titles styling */
+h6.fw-bold {
+    font-family: 'Subtitle', Arial, sans-serif !important;
+    color: #1d3f72 !important;
+}
+
+/* Active category style */
+.category-link.active {
+    background-color: #1d3f72 !important;
+    color: white !important;
+    font-weight: bold;
+    border-radius: 5px;
+    
+}
+
+/* Category style */
+.category-link {
+    color: #1d3f72;
+    font-family: 'Subtitle', Arial, sans-serif;
+}
+
+/* Hover effect */
+.category-link:hover {
+    color: #8198bb;
+    background-color: rgba(129, 152, 187, 0.1);
+}
+
+/* Each color */
+.color-link {
+    color: #1d3f72;
+    font-family: 'Subtitle', Arial, sans-serif;
+}
+
+/* Hover effect */
+.color-link:hover {
+    background-color: #8198bb;
+    color: white;
+}
+
+/* Button styles */
+.btn-primary {
+    background: #1d3f72;
+    border: none;
+    font-family: 'Subtitle', Arial, sans-serif;
+}
+
+.btn-primary:hover {
+    background: #8198bb;
+    transform: translateY(-2px);
+}
+
+.btn-outline-secondary {
+    color: #1d3f72;
+    border-color: #8198bb;
+    font-family: 'Subtitle', Arial, sans-serif;
+}
+
+.btn-outline-secondary:hover {
+    background: #8198bb;
+    color: white;
+}
+
+/* Active filters styles */
+#activeFilters {
+    background: rgba(129, 152, 187, 0.1);
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #8198bb;
+    font-family: 'Subtitle', Arial, sans-serif;
+}
+
+.badge.bg-primary {
+    background: #1d3f72 !important;
+    font-family: 'Subtitle', Arial, sans-serif;
+    padding: 10px 15px !important;
+    font-size: 1rem !important;
+    margin: 0 8px;
+}
+
+
+/* ------------------------------- 
+PRODUCT STYLES
+------------------------------- */
+/* Product cards styles */
+.card.h-100 {
+    border: 1px solid #8198bb;
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+    font-family: 'Subtitle', Arial, sans-serif;
+}
+
+.card.h-100:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(29, 63, 114, 0.2);
+}
+
+.card-body .card-title {
+    font-family: 'Subtitle', Arial, sans-serif;
+    color: #1d3f72;
+    font-weight: bold;
+    text-shadow: none;
+}
+
+/* Price styling */
+.h5.mb-0 {
+    color: #1d3f72;
+    font-family: 'Subtitle', Arial, sans-serif;
+}
+
+/* Empty state */
+.col-12.text-center.py-5 {
+    font-family: 'Subtitle', Arial, sans-serif;
+}
+
+.col-12.text-center.py-5 h4 {
+    font-family: 'Title', Arial, sans-serif;
+    color: #1d3f72;
+}

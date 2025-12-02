@@ -1,0 +1,40 @@
+{% load static %}
+<!-- ----- NAVIGATION BAR ----- -->
+    <nav class="navbar navbar-light navbar-expand-lg"> <!-- Sets the navigation bar to be light mode -->
+        <div class="container-lg"> <!-- Container allows automatic resizing of the elements -->
+            <!-- Logo -->
+            <a class="navbar-brand d-flex align-items-center">
+                <img src="{% static 'images/DisneyLogo1.png' %}" alt="Disney Logo" class="navbar-logo">
+            </a>
+ 
+            <!-- Hamburger menu on the right -->
+            <button class="navbar-toggler ms-auto align-self-center" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span> <!-- Creates the hamburger icon -->
+            </button>
+
+            <!-- The order of the logo and the menu switches whether it is displayed left or right. First element goes left, second goes right. -->
+    
+            <!-- Collapsible menu -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <div class="text-center w-100">
+                    <ul class="navbar-nav mx-auto flex-row">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'products:product_list' %}">Products</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Categories</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">About Us</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Contact</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Support</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>

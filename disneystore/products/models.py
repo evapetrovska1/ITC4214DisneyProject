@@ -6,6 +6,15 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True) # Category must be unique (it is the key)
 
+    # Each category can reference its parent too (i.e. for the subcategories of the main ones)
+    parent = models.ForeignKey(
+        "self",
+        on_delete=models.CASCADE,
+        related_name="subcategories",
+        blank=True,
+        null=True
+    )
+
     def __str__(self):
         return self.name
 
