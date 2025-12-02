@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% load static %}
+
+<!-- LOAD THE CSS OF THIS PAGE -->
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'accounts/register.css' %}">
+{% endblock %}
+
+
+<!-- TITLE AND SUBTITLE SECTION -->
+{% block title %}Register - Disney Store {% endblock %}
+
+{% block page_title %} Join the Magic! {% endblock %}
+
+{% block page_subtitle %} Create your Disney store account {% endblock %}
+
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-4">
+                <h4 class="card-title mb-4 text-center"> Register </h4>
+
+                <!-- ---------------- DISPLAY ERRORS  ---------------- -->
+                {% if form.errors %}
+                <div class="alert alert-info mb-4">
+                    <strong> Please correct the errors below: </strong>
+                    <ul class="mb-0 mt-2">
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                        <li>{{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+
+                <!-- ---------------- REGISTRATION FORM ---------------- -->
+                <form method="post">
+                    {% csrf_token %} <!-- Against SQL injections -->
+
+                    <!-- Username Field-->
+                    <div class="mb-4">
+                        <label for="id_username" class="form-label">
+                            <i class="fas fa-user me-1"></i> Username
+                        </label>
+                        <input type="text" name="username" id="id_username" class="form-control" required>
+
+                        <!-- If there are any errors for the username, display it -->
+                        {% if form.username.errors %}
+                        <div class="text-danger small mt-1"> {{ form.username.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Password field -->
+                    <div class="mb-4">
+                        <label for="id_password" class="form-label">
+                            <i class="fas fa-lock me-1"></i> Password
+                        </label>
+                        <input type="password" name="password" id="id_password" class="form-control" required>
+                        
+                        <!-- If there are any errors for the password, display it -->
+                        {% if form.password1.errors %}
+                        <div class="text-danger small mt-1"> {{ form.password1.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Password confirmation field -->
+                    <div class="mb-4">
+                        <label for="id_password2" class="form-label">
+                            <i class="fas fa-check-circle me-1"></i> Confirm Password
+                        </label>
+                        <input type="password" name="password2" id="id_password2" class="form-control" required>
+                        {% if form.password2.errors %}
+                        <div class="text-danger small mt-1">{{ form.password2.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Submit button -->
+                    <button type="submit" class="btn button-general py-2">
+                        <i class="fas fa-sign-in-alt me-1"></i> Login
+                    </button>
+                </form>
+
+                <!-- Login link -->
+                <div class="text-center mt-4">
+                    <p class="mb-2">Already have an account?</p>
+                    <a href="{% url 'accounts:login' %}" class="btn btn-outline-secondary w-100">
+                        <i class="fas fa-sign-in-alt me-1"></i> Login
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+    
+    
+
+{% endblock %}

@@ -24,3 +24,28 @@ BASE.HTML USER ACCESS
                     </ul>
                 </div>
             </div>
+
+
+disneystore
+    disneystore
+        settings.py
+        init.py
+        urls.py
+        wsgi.py
+        etc..
+    static
+        fonts
+        images
+        styles.css
+    templates
+        base.HTML
+        navigation.HTML
+    products
+        static
+            products.css
+            products.js
+        templates/products
+            product_list.HTML
+        views.py
+        urls.py
+        etc...
