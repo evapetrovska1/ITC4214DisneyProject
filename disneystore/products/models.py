@@ -9,7 +9,7 @@ class Category(models.Model):
     # Each category can reference its parent too (i.e. for the subcategories of the main ones)
     parent = models.ForeignKey(
         "self",
-        on_delete=models.CASCADE,
+        on_delete=models.CASCADE, # If the parent category is deleted, the subcategories are deleted as well
         related_name="subcategories",
         blank=True,
         null=True

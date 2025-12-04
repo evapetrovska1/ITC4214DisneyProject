@@ -1,24 +1,27 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import login, authenticate, logout
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth import login, authenticate, logout, update_session_auth_hash
+from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
+from .forms import CustomUserCreationForm
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from wishlist.models import WishlistItem
 
 
 # ------------------ VIEW FOR USER REGISTRATION ------------------
 def register_view(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST) # Create the form with user input
+        form = CustomUserCreationForm(request.POST) # Create the form with user input
         if form.is_valid():
             user = form.save() # Save the new user to the databaseChat
             login(request, user) # Automatically log them in
-            messages.success(request, 'You have been registered, WELCOME!')
+            messages.success(request, 'Welcome to the Disney Family!')
             return redirect('products:product_list') # Redirect users directly to the products page
         else:
             messages.error(request, 'Please fix the errors :)')
 
     # If it isn't a post, it is a GET method (get the template with the form)
     else:
-        form = UserCreationForm()
+        form = CustomUserCreationForm()
     
     return render(request, 'accounts/register.html', {'form': form})
 
@@ -68,7 +71,53 @@ def logout_view(request):
 
 
 # ------------------ VIEW FOR USER PROFILE ------------------
+@login_required # Users must log in before they access profile
 def profile_view(request):
-    return render(request, 'accounts/profile.html')
+
+    # If the user wishes to change their data
+    if request.method == 'POST':
+        request.user.first_name = request.POST.get('first_name','').strip() # Strip the input of any trailing spaces
+        request.user.last_name = request.POST.get('last_name','').strip() # Strip the input of any trailing spaces
+        request.user.save() # Save the changes
+    
+        messages.success(request, "Profile updated successfully!")
+        
+        # Reload the page with the new data
+        return redirect('accounts:profile')
+
+    # Get the full name, date joined, and last time logged in
+    context = {
+        'full_name': request.user.get_full_name() or "Not set",
+        'join_date': request.user.date_joined.strftime("%B %Y"),
+    }
+    return render(request, 'accounts/profile.html', context)
 
 
+
+# ------------------ VIEW FOR PASSWORD CHANGE ------------------
+@login_required
+def change_password_view(request):
+
+    # Only work when the user submits the form (clicks the button)
+    if request.method == 'POST':
+
+        # Create the form
+        form = PasswordChangeForm(request.user, request.POST)
+        
+        if form.is_valid():
+            # Save the form
+            user = form.save()
+            
+            # Important: update the session to prevent user logout
+            update_session_auth_hash(request, user)
+
+            # Display success message
+            messages.success(request, 'Your password has been changed successfully!')
+            return redirect('accounts:profile')
+        else:
+            # Display error message
+            messages.error(request, 'Please correct the errors below.')
+    else:
+        form = PasswordChangeForm(request.user)
+    
+    return render(request, 'accounts/change_password.html', {'form': form})

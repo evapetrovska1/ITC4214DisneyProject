@@ -20,6 +20,7 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('products.urls')), # Linking the products url
-    path('accounts/', include('accounts.urls')) # Linking the accounts url
+    path('accounts/', include('accounts.urls')), # Linking the accounts url
+    path('wishlist/', include('wishlist.urls')), # Linking the wishlist url
 ]
 

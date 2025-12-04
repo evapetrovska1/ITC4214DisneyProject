@@ -22,13 +22,22 @@
 
 
 {% block content %}
-<div class="row">
+<div class="row justify-content-center">
     
     <!-- ---------------- FILTERS ON THE LEFT SIDE  ---------------- -->
     <div class="col-lg-3 col-md-4 my-4">
         <div class="card shadow-sm border-0">
             <!-- Create a card to hold the filters -->
             <div class="card-body">
+                <!-- WELCOME BACK MESSAGE -->
+                {% if welcome_message %}
+                        <div class="text-center mt-3 mb-4">
+                            <h4 class="fw-bold">
+                                {{ welcome_message }}
+                            </h4>
+                        </div>
+                {% endif %}
+
                 <h4 class="card-title mb-4 text-center"> Filters </h4>
                 
                 <!-- Filters for the categories -->

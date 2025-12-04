@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+<!-- LOAD THE CSS OF THIS PAGE -->
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'accounts/accounts.css' %}">
+{% endblock %}
+
+
+<!-- LOAD THE JS OF THIS PAGE -->
+{% block extra_js %}
+<script src="{% static 'accounts/accounts.js' %}" defer></script>
+{% endblock %}
+
+
+<!-- TITLE AND SUBTITLE SECTION -->
+{% block title %}My Profile - Disney Store {% endblock %}
+
+{% block page_title %} My Magical Disney Account {% endblock %}
+
+{% block page_subtitle %} All your details in one place {% endblock %}
+
+
+<!-- MAIN SECTION FOLLOWS THE SAME LAYOUT AS THE PRODUCTS PAGE -->
+{% block content %}
+
+<!-- PROFILE VIEW SECTION -->
+<div class="row">
+    
+    <!-- ---------------- PROFILE CARD ON THE LEFT SIDE  ---------------- -->
+    <div class="col-lg-3 col-md-4 my-4">
+        <div class="card shadow-sm border-0">
+
+            <!-- Create a card to hold the profile -->
+            <div class="card-body text-center">
+
+                <!-- Default avatar image-->
+                <div class="text-center mb-4">
+                    <img src="{% static 'images/avatar.png' %}" 
+                        alt="Profile Picture" 
+                        class="rounded-circle profile_picture" 
+                        style="width: 120px; height: 120px; object-fit: cover; border: 3px solid #8198bb;">
+                </div>
+
+                <!-- Full Name and Username -->
+                <h4 class="mb-1"> {{ user.get_full_name|default:user.username }} </h4> <!-- If name is not provided, use username -->
+                <p class="text-muted mb-3"> @{{ user.username }}</p>
+                
+                <p class="mb-0 opacity-75">
+                    <i class="fas fa-calendar-alt fa-lg text-warning"></i>
+                    Member since {{ join_date }}
+                </p>
+                
+
+                <!-- Logout Link -->
+                <div class="text-center mt-4">
+                    <a href="{% url 'accounts:logout' %}" class="btn button-general w-100">
+                        <i class="fas fa-sign-out-alt me-2"></i>Logout
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ---------------- MAIN PROFILE INFO ON THE RIGHT SIDE  ---------------- -->
+    <div class="col-lg-9 col-md-8">
+    
+        <!-- EDIT PROFILE CARD -->
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-body">
+
+                <h4 class="card-title mb-4">
+                    <i class="fas fa-user-edit me-2"></i>Edit Your Information
+                </h4>
+                
+                <!-- Create a form for the editing -->
+                <form method="post" id="profileForm">
+                    {% csrf_token %}
+
+                    <div class="row g-4">
+                        
+                        <!-- Field for first name -->
+                        <div class="col-md-6"> 
+                            <label class="form-label fw-bold">First Name</label>
+                            <input type="text" name="first_name" class="form-control form-control-lg"
+                                   value="{{ user.first_name }}" placeholder="Mickey" required>
+                        </div>
+
+                        <!-- Field for last name -->
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Last Name</label>
+                            <input type="text" name="last_name" class="form-control form-control-lg"
+                                   value="{{ user.last_name }}" placeholder="Mouse" required>
+                        </div>
+
+                        <!-- Field for the username (that cant be changed :( )-->
+                        <div class="col-12">
+                            <label class="form-label text-muted">Username (cannot be changed)</label>
+                            <input type="text" class="form-control form-control-lg bg-light"
+                                   value="{{ user.username }}" disabled>
+                        </div>
+                    </div>
+
+                    <div class="text-end mt-4">
+                        <button type="button" class="btn button-general btn-sm px-5"  id="confirmSaveBtn">
+                            <i class="fas fa-save me-2"></i>Save Changes
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Change Password Section -->
+                <div class="mt-5 pt-4 border-top">
+                    <h5 class="mb-3">
+                        <i class="fas fa-key me-2"></i>Password Management
+                    </h5>
+                    
+                    <!-- Inform the user -->
+                    <div class="alert alert-info mb-4">
+                        <i class="fas fa-info-circle me-2"></i>
+                        For security reasons, you'll be redirected to a separate page to change your password.
+                    </div>
+                    
+                    <!-- Redirect the user to the password change page -->
+                    <div class="text-end">
+                        <a href="{% url 'accounts:change_password' %}" class="btn button-general btn-sm px-5">
+                            <i class="fas fa-lock me-2"></i>Change Password
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+{% endblock %}
