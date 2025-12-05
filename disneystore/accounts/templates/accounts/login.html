@@ -39,7 +39,7 @@
                     {{ form|crispy }} <!-- Render the form -->
 
                     <!-- Submit button -->
-                    <button type="submit" class="btn button-general py-2">
+                    <button type="submit" class="btn button-general btn-lg">
                         <i class="fas fa-sign-in-alt me-1"></i> Login
                     </button>
                 </form>
@@ -47,7 +47,7 @@
                 <!-- Registration link -->
                 <div class="text-center mt-4">
                     <p class="mb-2">Don't have an account?</p>
-                    <a href="{% url 'accounts:register' %}" class="btn button-general w-100">
+                    <a href="{% url 'accounts:register' %}" class="btn button-general-two btn-lg">
                         <i class="fas fa-user-plus me-1"></i> Create One Now!
                     </a>
                 </div>

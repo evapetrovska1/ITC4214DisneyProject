@@ -153,4 +153,57 @@ $(document).ready(function() {
     });
 
 
+    
+
+    // ----------------------------------------------------
+    // 6. ADDING TO/REMOVING FROM WISHLIST
+    // ----------------------------------------------------
+    $(document).on('click','.wishlist-toggle-heart', function (e) {
+        e.preventDefault(); // Prevent the default state
+
+        // Declare the variables for the button, product id, and if it is added already
+        const $button = $(this);
+        const productId = $button.data('product-id');
+        const isAdded = $button.hasClass('btn-danger');
+
+        // Dynamic class switching for the UX
+        if (isAdded) {
+            $button.removeClass('btn-danger').addClass('btn-outline-danger');
+            $button.find('i').removeClass('fas').addClass('far');
+        } else {
+            $button.removeClass('btn-outline-danger').addClass('btn-danger');
+            $button.find('i').removeClass('far').addClass('fas');
+        }
+        
+        // Ajax form to prevent reload of the webpage
+        // Send AJAX
+        $.ajax({
+            // The paths are hardcoded, but its better in this case
+            url: isAdded 
+                ? `/wishlist/remove/${productId}/`
+                 : `/wishlist/add/${productId}/`,
+            method: 'POST',
+            data: {
+                csrfmiddlewaretoken: window.csrfToken
+            },
+            success: function() {
+                console.log('Wishlist updated!');
+            },
+            error: function() {
+                // Revert on error
+                if (isAdded) {
+                    $button.removeClass('btn-outline-danger').addClass('btn-danger');
+                    $button.find('i').removeClass('far').addClass('fas');
+                } else {
+                    $button.removeClass('btn-danger').addClass('btn-outline-danger');
+                    $button.find('i').removeClass('fas').addClass('far');
+                }
+                alert("Error. Please try again.");
+            }
+        });
+        
+
+    });
+
+
 });

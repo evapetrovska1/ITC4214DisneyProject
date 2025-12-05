@@ -79,28 +79,6 @@ h6.fw-bold {
     color: white;
 }
 
-/* Button styles */
-.btn-primary {
-    background: #1d3f72;
-    border: none;
-    font-family: 'Subtitle', Arial, sans-serif;
-}
-
-.btn-primary:hover {
-    background: #8198bb;
-    transform: translateY(-2px);
-}
-
-.btn-outline-secondary {
-    color: #1d3f72;
-    border-color: #8198bb;
-    font-family: 'Subtitle', Arial, sans-serif;
-}
-
-.btn-outline-secondary:hover {
-    background: #8198bb;
-    color: white;
-}
 
 /* Active filters styles */
 #activeFilters {
@@ -117,30 +95,6 @@ h6.fw-bold {
     padding: 10px 15px !important;
     font-size: 1rem !important;
     margin: 0 8px;
-}
-
-
-/* ------------------------------- 
-PRODUCT STYLES
-------------------------------- */
-/* Product cards styles */
-.card.h-100 {
-    border: 1px solid #8198bb;
-    border-radius: 10px;
-    transition: transform 0.3s ease;
-    font-family: 'Subtitle', Arial, sans-serif;
-}
-
-.card.h-100:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(29, 63, 114, 0.2);
-}
-
-.card-body .card-title {
-    font-family: 'Subtitle', Arial, sans-serif;
-    color: #1d3f72;
-    font-weight: bold;
-    text-shadow: none;
 }
 
 /* Price styling */

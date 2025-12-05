@@ -4,6 +4,7 @@ from . import views
 app_name = 'wishlist'
 
 urlpatterns = [
+    path('', views.wishlist_view, name='wishlist'), # Path for the wishlist
     path('add/<int:product_id>/', views.add_to_wishlist, name='add'), # Path for adding product
     path('remove/<int:product_id>/', views.remove_from_wishlist, name='remove'), # Path for removing product
 ]

@@ -44,15 +44,15 @@
                     {{ form|crispy }} <!-- Render the form -->
 
                     <!-- Submit button -->
-                    <button type="submit" class="btn button-general py-2">
-                        <i class="fas fa-sign-in-alt me-1"></i> Login
+                    <button type="submit" class="btn button-general btn-lg">
+                        <i class="fas fa-sign-in-alt me-1"></i> Register
                     </button>
                 </form>
 
                 <!-- Login link -->
                 <div class="text-center mt-4">
                     <p class="mb-2">Already have an account?</p>
-                    <a href="{% url 'accounts:login' %}" class="btn button-general w-100">
+                    <a href="{% url 'accounts:login' %}" class="btn button-general-two btn-lg">
                         <i class="fas fa-sign-in-alt me-1"></i> Login
                     </a>
                 </div>

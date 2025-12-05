@@ -1,0 +1,174 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+<!-- LOAD THE CSS OF THIS PAGE -->
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'wishlist/wishlist.css' %}">
+{% endblock %}
+
+
+<!-- LOAD THE JS OF THIS PAGE -->
+{% block extra_js %}
+<script src="{% static 'wishlist/wishlist.js' %}" defer></script>
+<script>
+    window.csrfToken = "{{ csrf_token }}";
+</script>
+{% endblock %}
+
+
+
+<!-- TITLE AND SUBTITLE SECTION -->
+{% block title %}My Wishlist - Disney Store {% endblock %}
+
+{% block page_title %} My Magical Wishlist {% endblock %}
+
+{% block page_subtitle %} All the Disney items you're dreaming of {% endblock %}
+
+
+{% block content %}
+<!-- WISHLIST VIEW SECTION -->
+<div class="row justify-content-center wishlistPage">
+    
+    <!-- ---------------- WISHLIST STATS ON THE LEFT SIDE  ---------------- -->
+    <div class="col-lg-3 col-md-4 my-4">
+        <div class="card shadow-sm border-0">
+
+            <!-- Create a card to hold the quick stats -->
+            <div class="card-body text-center">
+                
+                <!-- Wishlist Icon -->
+                <div class="text-center mb-4">
+                    <div class="wishlist-heart-icon">
+                        <i class="fas fa-heart fa-4x"></i>
+                    </div>
+                </div>
+
+                <!-- Wishlist Stats -->
+                <h4 class="mb-1">My Wishlist</h4>
+                <p class="text-muted mb-3">
+                    <i class="fas fa-gift me-1"></i> {{ wishlist_count }} item{{ wishlist_count|pluralize }}
+                </p>
+
+                <!-- Quick Stats -->
+                <div class="stats-container mb-4">
+                    <div class="stat-item">
+                        <span class="stat-number">
+                            €{% if wishlist_items %}{{ total_price|default:"0.00" }}{% else %}0.00{% endif %}
+                        </span>
+                        <span class="stat-label">Total Value</span>
+                    </div>
+                </div>
+
+                <!-- Clear All Button -->
+                <!-- If there are any items, display the clear all -->
+                {% if wishlist_items %}
+                <div class="text-center mt-3">
+                    <button class="btn button-general btn-sm" id="clearWishlistBtn">
+                        <i class="fas fa-trash me-2"></i>Clear All
+                    </button>
+                </div>
+                {% endif %}
+
+                <!-- Back to Shopping -->
+                <div class="text-center mt-4">
+                    <a href="{% url 'products:product_list' %}" class="btn button-general btn-lg">
+                        <i class="fas fa-store me-2"></i>Continue Shopping
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ---------------- WISHLIST ITEMS ON THE RIGHT SIDE  ---------------- -->
+    <div class="col-lg-9 col-md-8">
+        
+        <!-- Wishlist Items Grid -->
+        <div class="row" id="wishlistContainer">
+
+            <!-- Loop through all of the products in the wishlist -->
+            {% for item in wishlist_items %}
+            <div class="col-lg-4 col-md-6 mb-4 wishlist-item" data-product-id="{{ item.product.id }}">
+                <div class="card h-100">
+                    <div class="position-relative">
+                        
+                        <!-- Product Image -->
+                        {% if item.product.image %}
+                        <img src="{{ item.product.image.url }}" class="card-img-top" alt="{{ item.product.name }}" 
+                             style="height: 200px; object-fit: cover;">
+                        {% else %}
+                        <div class="card-img-top bg-light d-flex align-items-center justify-content-center" 
+                             style="height: 200px;">
+                            <i class="fas fa-image fa-3x text-muted"></i>
+                        </div>
+                        {% endif %}
+                        
+                        <!-- Remove Button (Top Right) -->
+                        <button class="btn btn-sm btn-danger wishlist-remove-btn" 
+                            data-product-id="{{ item.product.id }}">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    
+                    <!-- Product Details -->
+                    <div class="card-body">
+                        <h5 class="card-title">{{ item.product.name }}</h5>
+                        <p class="card-text text-muted small mb-2">
+                            {{ item.product.description|truncatechars:80 }}
+                        </p>
+                        
+                        <!-- Price -->
+                        <div class="mb-3">
+                            <span class="h5 text-primary">€{{ item.product.price }}</span>
+                            <small class="text-muted ms-2">
+                                Added {{ item.added_at|timesince }} ago
+                            </small>
+                        </div>
+                        
+                        <!-- Action Buttons -->
+                        <div class="d-flex justify-content-between">
+                            <!-- Add to Cart -->
+                            <button class="btn btn-sm btn-primary mx-3" 
+                                    data-product-id="{{ item.product.id }}">
+                                <i class="fas fa-cart-plus me-1"></i>Add to Cart
+                            </button>
+                            
+                            <!-- View Product -->
+                            <a href="#" class="btn btn-sm btn-outline-secondary">
+                                <i class="fas fa-eye me-1"></i>View Details
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+    </div>
+</div>
+
+<!-- Clear All Confirmation Modal -->
+<div class="modal fade" id="clearWishlistModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-exclamation-triangle me-2 text-danger"></i>
+                    Clear Wishlist
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to remove all items from your wishlist?</p>
+                <p class="text-danger"><strong>This action cannot be undone.</strong></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirmClearBtn">Clear All</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,4 +1,6 @@
-/* ----- GLOBAL FONT STYLES ----- */
+/* ------------------------------- 
+GLOBAL FONT STYLES
+------------------------------- */
 @font-face {
     font-family: 'Title';
     src: url('fonts/Slackey.ttf') format('truetype');
@@ -28,7 +30,9 @@ p {
     font-family: 'Subtitle', Arial, sans-serif;
 }
 
-/* ----- PAGE HEADER SECTION ----- */
+/* ------------------------------- 
+PAGE HEADER SECTION
+------------------------------- */
 /* Background image */
 .page-header {
 background: 
@@ -63,7 +67,10 @@ overflow: hidden;
     z-index: 2;
 }
 
-/* ----- NAVIGATION BAR ----- */
+
+/* ------------------------------- 
+NAVIGATION BAR 
+------------------------------- */
 /* Navigation bar styles */
 .navbar-logo {
     height: 60px;
@@ -121,7 +128,10 @@ overflow: hidden;
     }
 }
 
-/* GENERAL BUTTON STYLING */
+
+/* ------------------------------- 
+BUTTON STYLES
+------------------------------- */
 .button-general {
   background-color: #0d6efd;
   color: white;
@@ -139,8 +149,72 @@ overflow: hidden;
   background-color: #125cca;
 }
 
+.button-general-two {
+    background-color: #4372b8;
+    color: white;
+    font-family: 'Subtitle', Arial, sans-serif;
+    padding: 12px 24px;
+    border-radius: 8px;
+    transition: 0.3s ease;
+    display: inline-block;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(13, 110, 253, 0.2);
+}
+
+.button-general-two:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(29, 63, 114, 0.5);
+  background-color: #709cde;
+}
+
+.btn-primary {
+    background: #1d3f72;
+    border: none;
+    font-family: 'Subtitle', Arial, sans-serif;
+}
+
+.btn-primary:hover {
+    background: #8198bb;
+    transform: translateY(-2px);
+}
+
+.btn-outline-secondary {
+    color: #1d3f72;
+    border-color: #8198bb;
+    font-family: 'Subtitle', Arial, sans-serif;
+}
+
+.btn-outline-secondary:hover {
+    background: #8198bb;
+    color: white;
+}
+
 /* PAGE CONTENT */
 .page-content .container-xl {
     max-width: 80% !important;
     width: 80% !important;
+}
+
+
+/* ------------------------------- 
+PRODUCT STYLES
+------------------------------- */
+/* Product cards styles */
+.card.h-100 {
+    border: 1px solid #8198bb;
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+    font-family: 'Subtitle', Arial, sans-serif;
+}
+
+.card.h-100:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(29, 63, 114, 0.2);
+}
+
+.card-body .card-title {
+    font-family: 'Subtitle', Arial, sans-serif;
+    color: #1d3f72;
+    font-weight: bold;
+    text-shadow: none;
 }

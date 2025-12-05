@@ -9,6 +9,10 @@
 <!-- LOAD THE JS OF THIS PAGE -->
 {% block extra_js %}
 <script src="{% static 'products/products.js' %}" defer></script>
+<script>
+    // Make the real CSRF token available to external JS
+    window.csrfToken = "{{ csrf_token }}";
+</script>
 {% endblock %}
 
 
@@ -225,12 +229,46 @@
                     <!-- Product description in the card body-->
                     <div class="card-body">
                         <h5 class="card-title">{{ product.name }}</h5>
-                        <p class="card-text text-muted small">{{ product.description|truncatechars:80 }}</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span class="h5 mb-0">€{{ product.price }}</span>
-                            <button class="btn btn-sm btn-primary">
-                                <i class="fas fa-cart-plus"></i>
-                            </button>
+                        <p class="card-text text-muted small">
+                            {{ product.description|truncatechars:80 }}
+                        </p>
+
+                        <!-- Price -->
+                        <div class="mb-3">
+                            <span class="h5 text-primary">€{{ product.price }}</span>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="d-flex justify-content-between">
+                            
+                                <!-- Add to Cart Functionality -->
+                                <button class="btn btn-sm btn-primary">
+                                    <i class="fas fa-cart-plus me-1"></i> Add to Cart
+                                </button>
+
+                                <!-- Wishlist Heart Functionality -->
+                                {% if user.is_authenticated %}
+                                    {% if product.wishlistitem_set.all %}
+                                        <button class="btn btn-sm wishlist-toggle-heart btn-danger"
+                                                data-product-id="{{ product.id }}">
+                                            <i class="fas fa-heart"></i>
+                                        </button>
+                                    {% else %}
+                                        <button class="btn btn-sm wishlist-toggle-heart btn-outline-danger"
+                                                data-product-id="{{ product.id }}">
+                                            <i class="far fa-heart"></i>
+                                        </button>
+                                    {% endif %}
+                                {% else %}
+                                    <button class="btn btn-sm btn-outline-secondary" disabled>
+                                        <i class="far fa-heart"></i>
+                                    </button>
+                                {% endif %}
+
+                            
+
+
+
                         </div>
                     </div>
                 </div>
