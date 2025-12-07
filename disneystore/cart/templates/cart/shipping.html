@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+{% load static %}
+{% load cart_extras %}
+{% load crispy_forms_tags %}
+{% load cart_extras %}
+
+<!-- LOAD THE CSS OF THIS PAGE -->
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'cart/cart.css' %}">
+{% endblock %}
+
+<!-- LOAD THE JS OF THIS PAGE -->
+{% block extra_js %}
+<script src="{% static 'cart/cart.js' %}" defer></script>
+{% endblock %}
+
+
+
+<!-- TITLE AND SUBTITLE SECTION -->
+{% block title %} Shipping - Disney Store {% endblock %}
+
+{% block page_title %} Shipping {% endblock %}
+<!-- 
+{% block page_subtitle %} Items ready for checkout {% endblock %} -->
+
+
+{% block content %}
+<!-- CART CHECKOUT SECTION -->
+
+<div class="row">
+
+    <!-- SHIPPING INFORMATION -->
+    <div class="col-lg-8 mb-4">
+
+        <!-- HEADER -->
+        <div class="checkout-header mt-2">
+            <h4 class="mb-1">
+            <i class="fa-solid fa-cart-shopping fa-lg"></i>
+                Shipping Information
+            </h4>
+        </div>
+
+        <!-- Checkout Progress -->
+        <div class="checkout-progress">
+            <div class="progress-step">
+                <div class="step-circle completed">✓</div>
+                <div class="step-label">Cart</div>
+            </div>
+            <div class="progress-step">
+                <div class="step-circle completed">✓</div>
+                <div class="step-label">Details</div>
+            </div>
+            <div class="progress-step">
+                <div class="step-circle active">3</div>
+                <div class="step-label active">Shipping</div>
+            </div>
+            <div class="progress-step">
+                <div class="step-circle">4</div>
+                <div class="step-label">Payment</div>
+            </div>
+        </div>
+
+        <!-- Express Checkout Section -->
+        <div class="express-checkout mt-5">
+            <h4>Express Checkout</h4>
+            <p class="text-muted mb-4">Fast & secure payment options</p>
+            <div class="d-flex justify-content-center gap-3 flex-wrap">
+                <button class="btn btn-paypal d-flex align-items-center gap-2 px-4 py-3">
+                    <i class="fab fa-paypal fa-lg"></i>
+                    <span>PayPal</span>
+                </button>
+                <button class="btn btn-apple-pay d-flex align-items-center gap-2 px-4 py-3">
+                    <i class="fab fa-apple fa-lg"></i>
+                    <span>Apple Pay</span>
+                </button>
+                <button class="btn btn-google-pay d-flex align-items-center gap-2 px-4 py-3">
+                    <i class="fab fa-google fa-lg"></i>
+                    <span>Google Pay</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Divider-->
+        <hr class="my-3 m-2">
+
+        <!-- SHIPPING FORM -->
+        <div class="col-lg-8">
+            <h4><i class="fas fa-shipping-fast me-2"></i> Shipping Address</h4>
+            <p class="text-muted mb-4">Choose a saved address or add a new one</p>
+
+            <!-- Loop through the user's addresses and display them (if they exist)-->
+            {% if user_addresses %}
+                <h5>Saved Addresses</h5>
+                {% for addr in user_addresses %}
+                <div class="card mb-3 address-card cursor-pointer" data-address-id="{{ addr.id }}">
+                    <div class="card-body">
+                        <strong>{{ addr.full_name }}</strong>
+                        <p class="mb-0">{{ addr.street_address }}</p>
+                        <p class="mb-0">{{ addr.city }}, {{ addr.state }} {{ addr.zip_code }}</p>
+                        <p class="mb-0">{{ addr.country }}</p>
+                        <small class="text-muted">{{ addr.phone|default:"No phone" }}</small>
+                        <div>
+                            <i class="fas fa-check fa-2x text-success check-icon"></i>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="empty-cart text-center">
+                    <p class="lead">You don't have any addresses saved </h4>
+                </div>
+            {% endif %}
+
+            <h5 class="mt-4">Or Add New Address</h5>
+            <form method="post" id="newAddressForm" action="{% url 'cart:use_new_address' %}">
+                {% csrf_token %}
+                {{ shipping_form|crispy }}
+                <button type="submit" class="btn btn-primary btn-lg px-5 mt-3">
+                    Save
+                </button>
+            </form>
+        </div>
+
+        <form method="post" action="{% url 'cart:complete_order' %}">
+            {% csrf_token %}
+            <div class="text-end mt-4">
+                <button type="submit" class="btn btn-success btn-outline-secondary btn-lg px-5 mt-3">
+                    <i class="fas fa-check me-2"></i> Complete Order & Pay
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- ORDER SUMMARY (SHORT) ON THE RIGHT SIDE  -->
+    <div class="col-lg-4">
+        <div class="cart-summary-card">
+            <div class="summary-header">
+                <h4>
+                    <i class="fas fa-receipt me-2"></i>
+                    Order Summary
+                </h4>
+            </div>
+            <hr>
+                {% for item in cart_items %}
+                <div class="d-flex justify-content-between mb-2">
+                    <span>{{ item.name }} × {{ item.quantity }}</span>
+                    <span>€{{ item.price|floatformat:2|multiply:item.quantity|floatformat:2 }}</span>
+                </div>
+                {% endfor %}
+            <hr>
+            <div class="summary-body">
+                <!-- Total -->
+                <div class="summary-row total-row">
+                    <span class="total-label">Total</span>
+                    <span class="total-price">€{{ total_price|floatformat:2 }}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Return Policy -->
+        <div class="mt-4 p-3 return-policy">
+            <div class="d-flex align-items-start">
+                <i class="fas fa-undo-alt me-2" style="color: #ff9800;"></i>
+                <div>
+                    <small class="fw-bold">Easy Returns</small>
+                    <small class="d-block text-muted">30-day return policy • Magic guaranteed!</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

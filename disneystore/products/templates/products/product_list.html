@@ -9,10 +9,6 @@
 <!-- LOAD THE JS OF THIS PAGE -->
 {% block extra_js %}
 <script src="{% static 'products/products.js' %}" defer></script>
-<script>
-    // Make the real CSRF token available to external JS
-    window.csrfToken = "{{ csrf_token }}";
-</script>
 {% endblock %}
 
 
@@ -218,9 +214,9 @@
                         
                         <!-- Display the product image at the top of the card (if there is one)-->
                         {% if product.image %}
-                        <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}" style="height: 200px; object-fit: cover;">
+                        <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}" class="product-image">
                         {% else %}
-                        <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                        <div class="card-img-top bg-light d-flex align-items-center justify-content-center">
                             <i class="fas fa-image fa-3x text-muted"></i>
                         </div>
                         {% endif %}
@@ -242,7 +238,8 @@
                         <div class="d-flex justify-content-between">
                             
                                 <!-- Add to Cart Functionality -->
-                                <button class="btn btn-sm btn-primary">
+                                <button class="btn btn-sm btn-primary add-to-cart-btn" 
+                                        data-product-id="{{ product.id }}">
                                     <i class="fas fa-cart-plus me-1"></i> Add to Cart
                                 </button>
 
@@ -264,11 +261,6 @@
                                         <i class="far fa-heart"></i>
                                     </button>
                                 {% endif %}
-
-                            
-
-
-
                         </div>
                     </div>
                 </div>

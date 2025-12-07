@@ -1,0 +1,251 @@
+{% extends "base.html" %}
+{% load static %}
+{% load cart_extras %}
+
+<!-- LOAD THE CSS OF THIS PAGE -->
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'cart/cart.css' %}">
+{% endblock %}
+
+
+<!-- TITLE AND SUBTITLE SECTION -->
+{% block title %}My Cart - Disney Store {% endblock %}
+
+{% block page_title %} My Magical Cart {% endblock %}
+
+{% block page_subtitle %} Items ready for checkout {% endblock %}
+
+
+{% block content %}
+<!-- CART VIEW SECTION -->
+<!-- Similar format to the wishlist page (but not really haha) -->
+
+<div class="row">
+
+    
+
+
+    <!-- CART ITEMS ON THE LEFT SIDE -->
+    <div class="col-lg-8 mb-4">
+        <div class="cart-card">
+            <div class="cart-header mt-3">
+                <!-- Shopping cart icon -->
+                <div class="mb-4">
+                    <div class="cart-icon">
+                        <h4 class="mb-1">
+                            <i class="fa-solid fa-cart-shopping fa-lg"></i>
+                            My Cart Items
+                        </h4>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Checkout Progress -->
+            <div class="checkout-progress">
+                <div class="progress-step">
+                    <div class="step-circle active">1</div>
+                    <div class="step-label">Cart</div>
+                </div>
+                <div class="progress-step">
+                    <div class="step-circle">2</div>
+                    <div class="step-label">Options</div>
+                </div>
+                <div class="progress-step">
+                    <div class="step-circle">3</div>
+                    <div class="step-label active">Shipping</div>
+                </div>
+                <div class="progress-step">
+                    <div class="step-circle">4</div>
+                    <div class="step-label">Payment</div>
+                </div>
+            </div>
+
+            <!-- Check if there are any cart items-->
+            {% if cart_items %}
+            <div class="cart-items">
+                <div class="table-responsive">
+                    <!-- Create a table to store all the items (product, details, price, quantity, total)-->
+                    <table class="table cart-table">
+                        <thead>
+                            <tr>
+                                <th> Product </th>
+                                <th> Details </th>
+                                <th class="text-center"> Price </th>
+                                <th class="text-center"> Quantity </th>
+                                <th class="text-center"> Total </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in cart_items %}
+                            <tr class="cart-item-row">
+                                <!-- Product Image-->
+                                <td>
+                                    {% if item.image %}
+                                    <img src="{{ item.image.url }}" class="card-img-top" alt="{{ item.name }}" class="product-image">
+                                    {% else %}
+                                    <div class="card-img-top bg-light d-flex align-items-center justify-content-center">
+                                        <i class="fas fa-image fa-3x text-muted"></i>
+                                    </div>
+                                    {% endif %}
+                                </td>
+
+                                <!-- Item Name -->
+                                <td>
+                                    <h5 class="cart-item-title"> {{ item.name }}</h5>
+                                    <p class="cart-item-id small text-muted mb-0">
+                                        Product ID: {{ item.id }}
+                                    </p>
+                                    <a href="{% url 'cart:remove' item.id %}" class="text-danger">
+                                            <i class="fas fa-trash me-1"></i> Remove
+                                    </a>
+                                </td>
+
+                                <!-- Item Price -->
+                                <td class="text-center">
+                                    <span class="cart-item-price">€{{ item.price }}</span>
+                                </td>
+
+                                <!-- Item Quantity -->
+                                <td class="text-center">
+                                    <div class="quantity-control">
+                                        <span class="quantity-badge">{{ item.quantity }}</span>
+                                        <div class="quantity-buttons">
+                                            <!-- Add one more item -->
+                                            <a href="{% url 'cart:add' item.id %}" class="btn btn-sm btn-outline-primary">
+                                                <i class="fas fa-plus"></i>
+                                            </a>
+                                            <!-- Remove the item -->
+                                            <a href="{% url 'cart:remove' item.id %}" class="btn btn-sm btn-outline-danger">
+                                                <i class="fas fa-minus"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </td>
+                                
+                                <!-- Item Price Total -->
+                                <td class="text-center fw-bold text-primary">
+                                    €{{ item.price|floatformat:2|multiply:item.quantity|floatformat:2 }}
+                                </td>
+                            </tr>
+                            {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Cart Actions -->
+            <div class="cart-actions">
+                <a href="{% url 'products:product_list' %}" class="btn btn-general btn-lg">
+                    <i class="fas fa-arrow-left me-2"></i> Continue Shopping
+                </a>
+                <div class="ms-auto mt-4">
+                    <a href="{% url 'cart:clear' %}" class="btn btn-outline-danger me-2">
+                        <i class="fas fa-trash me-1"></i> Clear Cart
+                    </a>
+                </div>
+            </div>
+
+            {% else %}
+            <!-- Empty Cart State -->
+            <div class="empty-cart text-center py-5">
+                <div class="empty-cart-icon mb-4">
+                    <i class="fas fa-shopping-cart fa-4x"></i>
+                </div>
+                <h4 class="mb-3">Your cart is empty</h4>
+                <p class="text-muted mb-4">Add some magical items to your cart!</p>
+                <a href="{% url 'products:product_list' %}" class="btn button-general px-5">
+                    <i class="fas fa-store me-2"></i> Browse Products
+                </a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+
+    <!-- ORDER SUMMARY ON THE RIGHT SIDE  -->
+    <div class="col-lg-4">
+        <div class="cart-summary-card">
+            <div class="summary-header">
+                <h4>
+                    <i class="fas fa-receipt me-2"></i>
+                    Order Summary
+                </h4>
+            </div>
+            
+            <div class="summary-body">
+                <!-- Items Count -->
+                <div class="summary-row">
+                    <span>Items ({{ item_count }})</span>
+                    <span>€{{ total_price|floatformat:2 }}</span>
+                </div>
+                
+                <!-- Shipping -->
+                <div class="summary-row">
+                    <span>Shipping</span>
+                    <span class="text-success">FREE</span>
+                </div>
+                
+                <!-- Estimated Tax -->
+                <div class="summary-row">
+                    <span>Estimated Tax</span>
+                    <span>€0.00</span>
+                </div>
+                
+                <!-- Divider -->
+                <hr class="my-3">
+                
+                <!-- Total -->
+                <div class="summary-row total-row">
+                    <span class="total-label">Total</span>
+                    <span class="total-price">€{{ total_price|floatformat:2 }}</span>
+                </div>
+                
+                <!-- Checkout Button -->
+                <div class="mt-4">
+                    <a href="{% url 'cart:checkout' %}" class="btn btn-primary w-100 py-3 checkout-btn">
+                        <i class="fas fa-lock me-2"></i> 
+                        Secure Checkout
+                    </a>
+                    <p class="text-center small text-muted mt-2">
+                        <i class="fas fa-shield-alt me-1"></i>
+                        100% Secure Payment
+                    </p>
+                </div>
+                
+                <!-- Payment Methods -->
+                <div class="payment-methods mt-4 mt-3">
+                    <p class="small text-muted mb-2">We accept:</p>
+                    <div class="d-flex justify-content-center">
+                        <i class="fab fa-cc-visa fa-2x me-3" style="color: #1a1f71;"></i>
+                        <i class="fab fa-cc-mastercard fa-2x me-3" style="color: #eb001b;"></i>
+                        <i class="fab fa-cc-paypal fa-2x" style="color: #003087;"></i>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <!-- Support Section -->
+            <div class="support-section mt-5">
+                <div class="support-header">
+                    <!-- Divider -->
+                    <hr class="my-3">
+                    <h5>
+                        <i class="fas fa-headset me-2 mt-2"></i>
+                        Need Help?
+                    </h5>
+                </div>
+                <div class="support-body text-center">
+                    <h4 class="support-phone">
+                        <i class="fas fa-phone me-2"></i> 1-800-DISNEY
+                    </h4>
+                    <p class="small text-muted mt-2">
+                        Our magical support team is available 24/7 to help you with your order.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

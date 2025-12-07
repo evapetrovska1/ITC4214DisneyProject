@@ -6,7 +6,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from wishlist.models import WishlistItem
 
-
 # ------------------ VIEW FOR USER REGISTRATION ------------------
 def register_view(request):
     if request.method == 'POST':
@@ -85,10 +84,23 @@ def profile_view(request):
         # Reload the page with the new data
         return redirect('accounts:profile')
 
-    # Get the full name, date joined, and last time logged in
+    # Get the cart items from the current session
+    cart = request.session.get('cart', {})
+    cart_items = cart.values()
+    cart_total = sum(float(item['price']) * item['quantity'] for item in cart_items)
+    cart_count = sum(item['quantity'] for item in cart_items)
+
+    # Get the wishlist items
+    wishlist_items = WishlistItem.objects.filter(user=request.user).select_related('product')
+
+
+    # Get all of the information
     context = {
-        'full_name': request.user.get_full_name() or "Not set",
         'join_date': request.user.date_joined.strftime("%B %Y"),
+        'wishlist_items': wishlist_items,
+        'cart_items': cart_items,
+        'cart_total': cart_total,
+        'cart_count': cart_count,
     }
     return render(request, 'accounts/profile.html', context)
 

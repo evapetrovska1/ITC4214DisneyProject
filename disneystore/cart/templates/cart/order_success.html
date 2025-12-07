@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% load static %}
+
+<!-- LOAD THE CSS OF THIS PAGE -->
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'cart/cart.css' %}">
+{% endblock %}
+
+
+<!-- TITLE AND SUBTITLE SECTION -->
+{% block title %} Order Confirmed - Disney Store {% endblock %}
+
+{% block page_title %} Order Confirmed! {% endblock %}
+
+
+
+{% block content %}
+<!-- CART CHECKOUT SECTION -->
+
+<div class="row">
+        <!-- HEADER -->
+        <div class="checkout-header mt-2">
+            <h4 class="mb-4">
+            <i class="fa-solid fa-cart-shopping fa-lg"></i>
+                Fun is on its way!
+            </h4>
+        </div>
+
+        <!-- Checkout Progress -->
+        <div class="checkout-progress">
+            <div class="progress-step">
+                <div class="step-circle completed">✓</div>
+                <div class="step-label">Cart</div>
+            </div>
+            <div class="progress-step">
+                <div class="step-circle completed">✓</div>
+                <div class="step-label">Details</div>
+            </div>
+            <div class="progress-step">
+                <div class="step-circle completed">✓</div>
+                <div class="step-label active">Shipping</div>
+            </div>
+            <div class="progress-step">
+                <div class="step-circle completed">✓</div>
+                <div class="step-label">Payment</div>
+            </div>
+        </div>
+
+        <!-- Order box -->
+        <div class="card mx-auto mb-4 border-primary">
+            <div class="card-body">
+
+                <div class="card-header mb-5">
+                    <div class="d-flex justify-content-between mb-3">
+                        <span><strong> <h4> Order #{{ order.id }} </h4></strong></span>
+                        <span class="badge bg-success">CONFIRMED</span>
+                    </div>
+                </div>
+                
+                <div class="text-start">
+                    <p>📦 <strong>Total:</strong> €{{ order.total_price|floatformat:2 }}</p>
+                    <p>📅 <strong>Date:</strong> {{ order.created_at|date:"M d, Y" }}</p>
+                    <p>🚚 <strong>Delivery:</strong> 3-5 days</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- PAYMENT INFO - Cash on Delivery -->
+        <div class="alert alert-info mx-auto mb-4" style="max-width: 400px;">
+            <div class="d-flex align-items-center">
+                <i class="fas fa-money-bill-wave fa-2x me-3"></i>
+                <div>
+                    <h5 class="mb-1">💰 Pay When It Arrives!</h5>
+                    <p class="mb-0">Just pay <strong>€{{ order.total_price|floatformat:2 }}</strong> in cash to the delivery person.</p>
+                </div>
+            </div>
+        </div>
+        <!-- Buttons -->
+        <div class="d-flex justify-content-center gap-3">
+            <a href="{% url 'products:product_list' %}" class="btn btn-primary">
+                Keep Shopping
+            </a>
+            <a href="{% url 'cart:cart' %}" class="btn btn-outline-secondary">
+                Back to Cart
+            </a>
+        </div>
+
+        <!-- Divider-->
+        <hr class="my-3 m-2">
+
+</div>
+{% endblock %}

@@ -41,6 +41,8 @@ $(document).ready(function() {
 
     });
 
+
+
     // -----------------------------------------
     // 3. ACTUAL MODAL MESSAGE FUNCTIONALITY
     // -----------------------------------------
@@ -72,7 +74,7 @@ $(document).ready(function() {
 
 
     // -----------------------------------------
-    // 3. HELPER FOR UPDATING COUNT + TOTAL
+    // 4. HELPER FOR UPDATING COUNT + TOTAL
     // -----------------------------------------
     function updateWishlistStats() {
         const count = $('.wishlist-item').length;
@@ -80,7 +82,7 @@ $(document).ready(function() {
     }
 
     // -----------------------------------------
-    // 4. IF NO ITEMS, SHOW PLACEHOLDER MESSAGE
+    // 5. IF NO ITEMS, SHOW PLACEHOLDER MESSAGE
     // -----------------------------------------
     function checkIfEmpty() {
         if ($('.wishlist-item').length === 0) {
@@ -100,5 +102,90 @@ $(document).ready(function() {
             `);
         }
     }
+
+    // -----------------------------------------------
+    // 6. ADD TO CART BUTTON (SAME LIKE PRODUCT_LIST)
+    // ------------------------------------------------
+    $(document).on('click', '.add-to-cart-wishlist-btn', function(e) {
+        e.preventDefault();
+
+        // Declare the variables for the button, product id, and if it is added
+        const $button = $(this);
+        const productId = $button.data('product-id');
+        const isAdded = $button.hasClass('btn-success');
+
+        // Dynamic class switching for the UX
+        if (isAdded) {
+            $button.removeClass('btn-success').addClass('btn-primary');
+            $button.html('<i class="fas fa-cart-plus me-1"></i> Add to Cart');
+        } else {
+            $button.removeClass('btn-primary').addClass('btn-success');
+            $button.html('<i class="fas fa-check me-1"></i> Added!');
+        }
+
+        // CSRF Token Function
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                // Split the cookie into individual cookies
+                const cookies = document.cookie.split(';');
+                
+                // Loop through the array of cookies
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    
+                    // Find the CSRF token cookie
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        // Decode and return the token value
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        // Get the csrf token from the cookie
+        const csrfToken = getCookie('csrftoken');
+        console.log('CSRF Token found:', csrfToken ? 'Yes' : 'No');
+
+
+        // Determine which URL to call (if item is already added or not)
+        const url = isAdded
+            ? `/cart/remove/${productId}/`  // If already added, call remove URL
+            : `/cart/add/${productId}/`;    // If not added, call add URL
+
+        
+        // Send the AJAX request without page reload
+        $.ajax({
+            url: url,
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrfToken  // Include CSRF token in headers of POST request
+            },
+            data: {
+                csrfmiddlewaretoken: csrfToken  // Also include in data for compatibility
+            },
+            success: function() {
+                console.log('Cart updated!');
+            },
+            error: function(error) {
+                // If AJAX request fails to go through, revert the button to original state
+                if (isAdded) {
+                    // Was removing but failed - show as still added
+                    $button.removeClass('btn-primary').addClass('btn-success');
+                    $button.html('<i class="fas fa-check me-1"></i> Added!');
+                } else {
+                    // Was adding but failed - show as not added
+                    $button.removeClass('btn-success').addClass('btn-primary');
+                    $button.html('<i class="fas fa-cart-plus me-1"></i> Add to Cart');
+                }
+                // Show error message to user
+                alert('Something went wrong. Please try again.');
+                console.error('Cart AJAX error ', error);
+            }
+        });
+
+    });
 
 });

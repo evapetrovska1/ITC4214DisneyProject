@@ -19,7 +19,7 @@
 
 {% block page_title %} My Magical Disney Account {% endblock %}
 
-{% block page_subtitle %} All your details in one place {% endblock %}
+{% block page_subtitle %} Manage your profile, orders, and wishlist {% endblock %}
 
 
 <!-- MAIN SECTION FOLLOWS THE SAME LAYOUT AS THE PRODUCTS PAGE -->
@@ -28,13 +28,12 @@
 <!-- PROFILE VIEW SECTION -->
 <div class="row">
     
-    <!-- ---------------- PROFILE CARD ON THE LEFT SIDE  ---------------- -->
+    <!-- ---------------- PROFILE CARD ON THE LEFT SIDE + SIMPLE NAVIGATION  ---------------- -->
     <div class="col-lg-3 col-md-4 my-4">
         <div class="card shadow-sm border-0">
 
             <!-- Create a card to hold the profile -->
             <div class="card-body text-center">
-
                 <!-- Default avatar image-->
                 <div class="text-center mb-4">
                     <img src="{% static 'images/avatar.png' %}" 
@@ -52,29 +51,55 @@
                     Member since {{ join_date }}
                 </p>
                 
-
                 <!-- Logout Link -->
                 <div class="text-center mt-4">
                     <a href="{% url 'accounts:logout' %}" class="btn button-general-two btn-lg">
                         <i class="fas fa-sign-out-alt me-2"></i>Logout
                     </a>
                 </div>
+
+                <!-- Simple Navigation -->
+                <div class="list-group mt-5">
+                    <a href="#profile" class="list-group-item list-group-item-action active">
+                        <i class="fas fa-user nav-icon"></i>
+                        <span> Profile Info </span>
+                    </a>
+                    <a href="#orders" class="list-group-item list-group-item-action">
+                        <i class="fas fa-shopping-bag nav-icon"></i>
+                        <span>My Orders</span>
+                    </a>
+                    <a href="#wishlist" class="list-group-item list-group-item-action">
+                        <i class="fas fa-heart nav-icon text-danger"></i>
+                        <span>My Wishlist</span>
+                    </a>
+                    <a href="#cart" class="list-group-item list-group-item-action">
+                        <i class="fas fa-shopping-cart nav-icon text-warning"></i>
+                        <span>Shopping Cart</span>
+                    </a>
+                </div>
+                
+                
             </div>
         </div>
+
+        
     </div>
 
     <!-- ---------------- MAIN PROFILE INFO ON THE RIGHT SIDE  ---------------- -->
     <div class="col-lg-9 col-md-8">
-    
-        <!-- EDIT PROFILE CARD -->
-        <div class="card shadow-sm border-0 mb-4">
-            <div class="card-body">
+        
+        <!-- SECTION 1: PROFILE INFO -->
+        <div id="profile" class="card mb-4">
+            <h4 class="card-header mb-4">
+                <i class="fas fa-user-edit me-2"></i>Profile Information
+            </h4>
 
-                <h4 class="card-title mb-4">
-                    <i class="fas fa-user-edit me-2"></i>Edit Your Information
-                </h4>
+            <div class="card-body">
+                <h5 class="mb-4">
+                    <i class="fas fa-user-shield me-2"></i> Update Personal Details
+                </h5>
                 
-                <!-- Create a form for the editing -->
+                <!-- Create a form for the editing of information-->
                 <form method="post" id="profileForm">
                     {% csrf_token %}
 
@@ -103,7 +128,7 @@
                     </div>
 
                     <div class="text-end mt-4">
-                        <button type="button" class="btn button-general btn-sm px-5"  id="confirmSaveBtn">
+                        <button type="button" class="btn btn-primary btn-lg px-5"  id="confirmSaveBtn">
                             <i class="fas fa-save me-2"></i>Save Changes
                         </button>
                     </div>
@@ -111,7 +136,7 @@
 
                 <!-- Change Password Section -->
                 <div class="mt-5 pt-4 border-top">
-                    <h5 class="mb-3">
+                    <h5 class="mb-4">
                         <i class="fas fa-key me-2"></i>Password Management
                     </h5>
                     
@@ -123,15 +148,16 @@
                     
                     <!-- Redirect the user to the password change page -->
                     <div class="text-end">
-                        <a href="{% url 'accounts:change_password' %}" class="btn button-general btn-sm px-5">
+                        <a href="{% url 'accounts:change_password' %}" class="btn btn-outline-secondary btn-lg px-5">
                             <i class="fas fa-lock me-2"></i>Change Password
                         </a>
                     </div>
                 </div>
-
             </div>
         </div>
-        
+
+
+
     </div>
 </div>
 

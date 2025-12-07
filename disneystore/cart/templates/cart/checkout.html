@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load cart_extras %}
+
+<!-- LOAD THE CSS OF THIS PAGE -->
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'cart/cart.css' %}">
+{% endblock %}
+
+
+<!-- TITLE AND SUBTITLE SECTION -->
+{% block title %}Checkout - Disney Store {% endblock %}
+
+{% block page_title %} 🎀 Secure Checkout 🎀 {% endblock %}
+
+
+
+{% block content %}
+<!-- CART CHECKOUT SECTION -->
+
+<div class="row">
+
+    <!-- LOG IN/ CHECK OUT AS GUEST ON THE LEFT SIDE -->
+    <div class="col-lg-8 mb-4">
+        
+        <!-- HEADER -->
+        <div class="checkout-header mt-2">
+            <h4 class="mb-1">
+            <i class="fa-solid fa-cart-shopping fa-lg"></i>
+                Checkout Options
+            </h4>
+        </div>
+
+        <!-- Checkout Progress -->
+        <div class="checkout-progress">
+            <div class="progress-step">
+                <div class="step-circle completed">✓</div>
+                <div class="step-label completed">Cart</div>
+            </div>
+            <div class="progress-step">
+                <div class="step-circle active">2</div>
+                <div class="step-label active">Options</div>
+            </div>
+            <div class="progress-step">
+                <div class="step-circle">3</div>
+                <div class="step-label">Shipping</div>
+            </div>
+            <div class="progress-step">
+                <div class="step-circle">4</div>
+                <div class="step-label">Payment</div>
+            </div>
+        </div>
+
+        
+        <!-- If the user is logged in, go directly to shipping -->
+        {% if user.is_authenticated %}
+            <div class="welcome-user text-center">
+                <h3 class="fw-bold mb-3 mt-4">
+                    Hello, {{ user.get_full_name|default:user.username }}! 👋
+                </h3>
+                <a href="{% url 'cart:shipping' %}" class="btn btn-outline-secondary btn-lg">
+                    Continue to Shipping
+                </a>
+            </div>
+
+        <!-- If the user isn't, allow them to checkout as guest or sign in -->
+        {% else %}
+
+            <!-- Option 1: LOG IN -->
+            <div class="login-box text-center">
+                <div class="option-icon mt-5">
+                        <i class="fas fa-user-check"></i>
+                </div>
+                <h3 class="fw-bold mb-3">Sign In to Your Account</h3>
+                <p class="text-muted mb-4">
+                    Sign in for faster checkout and to track your order.
+                </p>
+                <a href="{% url 'accounts:login' %}" class="btn btn-outline-secondary btn-lg">
+                    <i class="fas fa-sign-in-alt me-2"></i> Sign In
+                </a>
+                <div class="text-center mt-3">
+                    <small class="text-muted">
+                        <i class="fas fa-lock me-1"></i> Secure login
+                    </small>
+                </div>
+            </div>
+
+            <!-- Divider-->
+            <hr class="my-3 m-2">
+
+            <!-- Option 2: GUEST -->
+            <div class="guest-box text-center">
+                <div class="option-icon guest-icon">
+                    <i class="fas fa-user-clock"></i>
+                </div>
+                <h3 class="text-center fw-bold mb-3">Continue as Guest</h3>
+                <p class="text-center text-muted mb-4">
+                    Check out quickly without creating an account. You can create one later!
+                </p>
+                <a href="{% url 'cart:shipping' %}" class="btn btn-primary btn-lg">
+                    <i class="fas fa-bolt me-2"></i> Quick Guest Checkout
+                </a>
+                <div class="text-center mt-3">
+                    <small class="text-muted">
+                        <i class="fas fa-rocket me-1"></i> Fastest checkout option
+                    </small>
+                </div>
+            </div>
+        {% endif %}
+
+            <!-- Benefits Section -->
+            <div class="benefits mt-4 p-3">
+                <h5 class="fw-bold mb-3">
+                    <i class="fas fa-crown me-2"></i> Benefits of Signing In:
+                </h5>
+                <div class="row">
+                    <div class="col-md-4 mb-2">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-shipping-fast me-2 text-primary"></i>
+                            <small>Faster Checkout</small>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-history me-2 text-primary"></i>
+                            <small>Order History</small>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-heart me-2 text-primary"></i>
+                            <small>Saved Wishlist</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+
+    </div>
+
+
+    <!-- ORDER SUMMARY (SHORT) ON THE RIGHT SIDE  -->
+    <div class="col-lg-4">
+        <div class="cart-summary-card">
+            <div class="summary-header">
+                <h4>
+                    <i class="fas fa-receipt me-2"></i>
+                    Order Summary
+                </h4>
+            </div>
+            <hr>
+                {% for item in cart_items %}
+                <div class="d-flex justify-content-between mb-2">
+                    <span>{{ item.name }} × {{ item.quantity }}</span>
+                    <span>€{{ item.price|floatformat:2|multiply:item.quantity|floatformat:2 }}</span>
+                </div>
+                {% endfor %}
+            <hr>
+            <div class="summary-body">
+                <!-- Total -->
+                <div class="summary-row total-row">
+                    <span class="total-label">Total</span>
+                    <span class="total-price">€{{ total_price|floatformat:2 }}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Return Policy -->
+        <div class="mt-4 p-3 return-policy">
+            <div class="d-flex align-items-start">
+                <i class="fas fa-undo-alt me-2" style="color: #ff9800;"></i>
+                <div>
+                    <small class="fw-bold">Easy Returns</small>
+                    <small class="d-block text-muted">30-day return policy • Magic guaranteed!</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

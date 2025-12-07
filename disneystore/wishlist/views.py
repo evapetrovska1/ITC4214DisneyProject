@@ -14,14 +14,30 @@ def add_to_wishlist(request, product_id):
     product = get_object_or_404(Product, id=product_id) # Get the current product
 
     # Check if item is already in wishlist
-    if WishlistItem.objects.filter(user=request.user, product=product).exists():
-        return JsonResponse({'status': 'already_exists'}, status=200) # Return already exists message
+    wishlist_item, created = WishlistItem.objects.get_or_create(
+        user=request.user,
+        product=product
+    )
 
-    # Otherwise, add item to wishlist
-    WishlistItem.objects.create(user=request.user, product=product)
+    # If it's an AJAX request, return JSON
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
 
-    # Return success
-    return JsonResponse({'status': 'added'}, status=200)
+        return JsonResponse({
+                'success': True,
+                'message': f'Added {product.name} to wishlist!',
+                'action': 'added',
+                'product_id': product_id
+        })
+    
+
+    # Regular request (HTTP)
+    if created:
+        messages.success(request, f'Added {product.name} to wishlist!')
+    else:
+        messages.info(request, f'{product.name} is already in your wishlist')
+
+    # Redirect the user
+    return redirect('products:product_list')
 
 
 # ------------------ VIEW FOR DELETING ITEMS FROM WISHLIST  ------------------
@@ -31,16 +47,24 @@ def remove_from_wishlist(request, product_id):
     product = get_object_or_404(Product, id=product_id) # Get the current product
   
     # Delete the wishlist entry if it exists
-    deleted,_ = WishlistItem.objects.filter( # First filter and then delete
+    wishlist_item = WishlistItem.objects.get(
         user=request.user,
         product=product
-    ).delete()
+    )
+    wishlist_item.delete()
 
-    if deleted:
-        return JsonResponse({'status': 'removed'}, status=200)
-    else:
-        return JsonResponse({'status': 'not_found'}, status=200)
+    # If it is an AJAX request, return JSON
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({
+                'success': True,
+                'message': f'Removed {product.name} from wishlist',
+                'action': 'removed',
+                'product_id': product_id
+            })
     
+    # Regular request
+    messages.success(request, f'Removed {product.name} from wishlist')
+    return redirect('products:product_list')
 
 
 # ------------------ VIEW FOR SEEING ALL WISHLIST ITEMS  ------------------
@@ -54,7 +78,7 @@ def wishlist_view(request):
     # Calculate total price
     total_price = sum(item.product.price for item in wishlist_items)
     
-    # Render the items and the coutns
+    # Render the items and the counts
     context = {
         'wishlist_items': wishlist_items,
         'wishlist_count': wishlist_items.count(),

@@ -41,7 +41,7 @@ disneystore
         base.HTML
         navigation.HTML
     products
-        static
+        static/products
             products.css
             products.js
         templates/products
@@ -50,13 +50,21 @@ disneystore
         urls.py
         etc...
     accounts
-        static
+        static/accounts
             accounts.css
         templates/accounts
             login.HTML
             register.HTML
+            profile.HTML
+    Wishlist
+        static/Wishlist
+            wishlist.css
+            wishlist.js
+        templates/wishlist
+            wishlist.HTML
             
 USERS:
 username: user1 password: YkgXeXK8aMrJvi8qKhYg
 username: user2 password: qN9WNez3i7keTRvDLfnk
 username: user4 name: user lastname: 4 password: 6@^7|X{6CSfe
+username: employee1 name: employee lastname: 1 password: a4Bb]Kr78ToL

@@ -18,9 +18,11 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include('products.urls')), # Linking the products url
-    path('accounts/', include('accounts.urls')), # Linking the accounts url
-    path('wishlist/', include('wishlist.urls')), # Linking the wishlist url
+    path('admin/', admin.site.urls), # ADMIN urls
+    path('', include('products.urls')), # Linking the products urls
+    path('accounts/', include('accounts.urls')), # Linking the accounts urls
+    path('wishlist/', include('wishlist.urls')), # Linking the wishlist urls
+    path('employee_dash/', include('employee_dash.urls')), # Linking the employee dashboard urls
+    path('cart/', include('cart.urls')), # Linking the cart urls
 ]
 

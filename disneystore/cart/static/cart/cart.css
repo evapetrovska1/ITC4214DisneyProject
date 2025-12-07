@@ -1,0 +1,158 @@
+/* 
+----------------------------
+PROGRESS BAR STYLES
+----------------------------
+*/
+
+.checkout-progress {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    position: relative;
+}
+
+.checkout-progress::before {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #e0e0e0;
+    z-index: 1;
+}
+
+.progress-step {
+    text-align: center;
+    font-family: 'Subtitle', Arial, sans-serif;
+    position: relative;
+    z-index: 2;
+    flex: 1;
+}
+
+.step-circle {
+    width: 40px;
+    height: 40px;
+    background: white;
+    border: 2px solid #e0e0e0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 10px;
+    font-weight: bold;
+    color: #666;
+}
+
+.step-circle.active {
+    background: #4a6cf7;
+    border-color: #4a6cf7;
+    color: white;
+}
+
+.step-circle.completed {
+    background: #4CAF50;
+    border-color: #4CAF50;
+    color: white;
+}
+
+/* 
+----------------------------
+GENERAL STYLES
+----------------------------
+*/
+.cart-header h4, .summary-header h4,
+.checkout-header h4{
+    font-family: 'Title', Arial, sans-serif;
+    color: #1d3f72;
+    margin: 0;
+}
+
+.cart-item-row:hover {
+    background: rgba(129, 152, 187, 0.2);
+}
+
+.cart-icon, .option-icon {
+    color: #4372b8 !important;
+    font-size: 20px;
+}
+
+.cart-summary-card,
+.table-responsive,
+.benefits {
+    font-family: 'Subtitle', Arial, sans-serif;
+}
+
+.benefits {
+    background: #f8f9fa;
+    border-radius: 10px;
+}
+
+.return-policy {
+    background: #fff8e1; 
+    border-radius: 8px;
+    font-family: 'Subtitle', Arial, sans-serif;
+}
+
+/* 
+----------------------------
+SHIPPING SPECIFIC STYLES
+----------------------------
+*/
+/* Express checkout buttons */
+.btn-paypal {
+    background: #003087;
+    color: white;
+    border: none;
+    font-family: 'Subtitle', Arial, sans-serif;
+}
+
+.btn-paypal:hover {
+    background: #002266;
+    color: white;
+}
+
+.btn-apple-pay {
+    background: #000;
+    color: white;
+    border: none;
+    font-family: 'Subtitle', Arial, sans-serif;
+}
+
+.btn-apple-pay:hover {
+    background: #333;
+    color: white;
+}
+
+.btn-google-pay {
+    background: #5F6368;
+    color: white;
+    border: none;
+    font-family: 'Subtitle', Arial, sans-serif;
+}
+
+.btn-google-pay:hover {
+    background: #3C4043;
+    color: white;
+}
+/* ADRESS CARDS */
+.address-card {
+    transition: all 0.2s ease;
+    border: 2px solid #dee2e6;
+}
+.address-card:hover { 
+    border-color: #5088c5 !important; 
+}
+.address-card.selected {
+    border: 2px solid #5088c5;
+    background: #f0f8ff;
+    box-shadow: 0 4px 12px rgba(0,123,255,0.15);
+}
+.check-icon { 
+    opacity: 0; 
+    transition: opacity 0.3s; 
+}
+
+#continueToPayment {
+    display: none;
+}

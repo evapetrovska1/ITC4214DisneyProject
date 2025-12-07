@@ -53,9 +53,8 @@ def product_list(request):
             selected_color_name = cat.name # Get the name
         except:
             pass # If error arises, pass
-
-    # RENDER WITH ALL CONTEXT
-    return render(request, 'products/product_list.html', {
+    
+    context = {
         'products': products,
         'main_categories': main_categories,
         'colors': colors,
@@ -65,4 +64,6 @@ def product_list(request):
         'selected_color_name': selected_color_name, # Get name of color
         'min_price': min_price,
         'max_price': max_price,
-    })
+    }
+
+    return render(request, 'products/product_list.html', context)

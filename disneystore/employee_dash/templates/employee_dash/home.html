@@ -1,0 +1,20 @@
+{% extends "base_employee.html" %}
+{% load static %}
+
+{% block page_subtitle %} Dashboard Home {% endblock %}
+
+{% block content %}
+
+<!-- Welcome back message for the employee -->
+<div class="alert alert-info mb-4">
+    <div class="d-flex align-items-center">
+        <i class="fas fa-magic fa-2x me-3"></i>
+        <div>
+            <h4 class="mb-1">Welcome back, {{ user.username }}!</h4>
+            <p class="mb-0">Here's what's happening in your store today.</p>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

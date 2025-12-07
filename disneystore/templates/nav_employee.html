@@ -1,0 +1,39 @@
+{% load static %}
+<!-- TOP EMPLOYEE NAVIGATION BAR -->
+    <nav class="navbar navbar-expand-lg employee-navbar">
+        <div class="container-fluid">
+            <!-- Logo -->
+            <a class="navbar-brand d-flex align-items-center">
+                <img src="{% static 'images/DisneyLogo1.png' %}" alt="Disney Logo" class="navbar-logo">
+            </a>
+            <a class="navbar-brand" href="{% url 'employee_dash:home' %}">
+                <i class="fas fa-user-tie me-2"></i>
+                <span class="brand-text">DreamWorks Employee</span>
+            </a>
+            
+            <!-- Top Right User Menu -->
+            <div class="navbar-nav ms-auto">
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                        <i class="fas fa-user-circle me-1"></i>
+                        {{ user.username }}
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="nav-item">
+                            <a class="nav-link dropdown-item" href="{% url 'accounts:profile' %}">
+                            <i class="fas fa-user me-2"></i>Profile
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link dropdown-item" href="{% url 'accounts:logout' %}">
+                                <i class="fas fa-sign-out-alt me-2"></i>Logout
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>

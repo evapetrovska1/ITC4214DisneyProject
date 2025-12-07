@@ -34,34 +34,6 @@ STYLES FOR THE CARDS
     box-shadow: 0 15px 35px rgba(29, 63, 114, 0.3) !important;
 }
 
-
-/* -------------------------------------------- 
-FORM CONTROLS
------------------------------------------------*/
-.form-control {
-    border: 2px solid #8198bb !important;
-    border-radius: 8px !important;
-    padding: 12px 15px !important;
-    font-family: 'Subtitle', Arial, sans-serif !important;
-    transition: all 0.3s ease;
-}
-
-.form-label {
-    font-family: 'Subtitle', Arial, sans-serif !important;
-    color: #1d3f72 !important;
-    font-size: 20px;
-}
-
-.form-control:focus {
-    border-color: #1d3f72 !important;
-    box-shadow: 0 0 0 0.25rem rgba(29, 63, 114, 0.25) !important;
-}
-
-.alert, alert-info, .errors,
-.form-text, .helptext{
-    font-family: 'Subtitle', Arial, sans-serif !important;
-}
-
 /* 
 ---------------------------------
 PROFILE PAGE STYLES
@@ -73,8 +45,12 @@ PROFILE PAGE STYLES
     object-fit: cover; 
     border: 3px solid #8198bb;
 }
+.list-group {
+    font-family: 'Subtitle', Arial, sans-serif !important;
+    color: #1d3f72 !important;
+}
 
-/* CONFIRMATION OF SAVE CHANGES BUTTON STYLES */
+/* POP UP STYLES */
 .profile-popup-overlay {
     position: fixed;
     top: 0;
