@@ -1,6 +1,12 @@
 {% extends "base_employee.html" %}
 {% load static %}
 
+<!-- LINK THE PAGE SPECIFIC CSS -->
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'employee_dash/employee_dash.css' %}">
+{% endblock %}
+
+
 {% block page_subtitle %} Dashboard Home {% endblock %}
 
 {% block content %}
@@ -15,6 +21,95 @@
         </div>
     </div>
 </div>
+
+<!-- QUICK STATS ROW -->
+
+<!-- Revenue Card -->
+<div class="revenue-card m-3 card border-0 shadow-sm">
+    <div class="card-header mt-3 bg-transparent border-0">
+        <div class="mb-4">
+            <div class="cart-icon">
+                <h4 class="mb-1 text-primary">
+                    <i class="fa-solid fa-euro-sign fa-lg me-2"></i>
+                    Total Revenue
+                </h4>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <h3 class="mb-0">€{{ total_revenue|floatformat:2 }}</h3>
+        <p class="small mb-0 mt-2 text-muted">
+            <i class="fas fa-calendar-day me-1"></i> Today: €{{ today_revenue|floatformat:2 }}
+        </p>
+    </div>
+</div>
+
+
+<!-- Orders Card -->
+<div class="revenue-card m-3 card border-0 shadow-sm">
+    <div class="card-header mt-3 bg-transparent border-0">
+        <div class="mb-4">
+            <div class="cart-icon">
+                <h4 class="mb-1 text-warning">
+                    <i class="fa-solid fa-cart-shopping fa-lg me-2"></i>
+                    Total Orders
+                </h4>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <h3 class="mb-0">{{ total_orders }}</h3>
+        <p class="small mb-0 mt-2 text-muted">
+            <i class="fas fa-calendar-day me-1"></i> Today: {{ today_orders }}
+        </p>
+    </div>
+</div>
+  
+
+<!-- Products Card -->
+<div class="revenue-card m-3 card border-0 shadow-sm">
+    <div class="card-header mt-3 bg-transparent border-0">
+        <div class="mb-4">
+            <div class="cart-icon">
+                <h4 class="mb-1 text-success">
+                    <i class="fa-solid fa-box-open fa-lg me-2"></i>
+                    Total Products
+                </h4>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <h3 class="mb-0">{{ total_products }}</h3>
+        <p class="small mb-0 mt-2 text-muted">
+            <i class="fas fa-tags me-1"></i> Categories: {{ total_categories }}
+        </p>
+    </div>
+</div>
+
+<!-- Order Status Card -->
+<div class="revenue-card m-3 card border-0 shadow-sm">
+    <div class="card-header mt-3 bg-transparent border-0">
+        <div class="mb-4">
+            <div class="cart-icon">
+                <h4 class="mb-1 text-info">
+                    <i class="fa-solid fa-clipboard-check fa-lg me-2"></i>
+                    Order Status
+                </h4>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="mb-2">
+            <span class="badge bg-warning me-1">{{ processing_orders }} Pending</span>
+            <span class="badge bg-info me-1">{{ shipped_orders }} Shipped</span>
+            <span class="badge bg-success">{{ delivered_orders }} Delivered</span>
+        </div>
+        <p class="small mb-0 mt-2 text-muted">
+            <i class="fas fa-chart-pie me-1"></i> Status Distribution
+        </p>
+    </div>
+</div>
+
 
 
 {% endblock %}

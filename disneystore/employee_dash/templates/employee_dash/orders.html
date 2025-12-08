@@ -1,0 +1,166 @@
+{% extends "base_employee.html" %}
+{% load static %}
+
+<!-- LINK THE PAGE SPECIFIC CSS -->
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'employee_dash/employee_dash.css' %}">
+{% endblock %}
+
+
+{% block page_subtitle %} Oder Management {% endblock %}
+
+{% block content %}
+<div class="allOrders">
+    
+    <!-- All Orders Section -->
+    <section id="all-orders" class="mb-5">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header">
+                <h4 class="mb-0">
+                    <i class="fas fa-list text-primary me-2"></i>
+                    All Orders
+                </h4>
+            </div>
+            <div class="card-body">
+                {% if all_orders %}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Order #</th>
+                                <th>Customer</th>
+                                <th>Date</th>
+                                <th>Total</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for order in all_orders %}
+                            <tr>
+                                <td>#{{ order.id }}</td>
+                                <td>{{ order.user.username }}</td>
+                                <td>{{ order.created_at|date:"M d, Y" }}</td>
+                                <td>€{{ order.total_price }}</td>
+                                <td>
+                                    {% if order.status == 'Delivered' %}
+                                    <span class="badge bg-success">Delivered</span>
+                                    {% elif order.status == 'Processing' %}
+                                    <span class="badge bg-warning">Processing</span>
+                                    {% elif order.status == 'Shipped' %}
+                                    <span class="badge bg-info">Shipped</span>
+                                    {% else %}
+                                    <span class="badge bg-danger">{{ order.status }}</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="text-center py-4">
+                    <i class="fas fa-clipboard-list fa-3x text-muted mb-3"></i>
+                    <p class="text-muted">No orders yet.</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Pending Orders Section -->
+    <section id="pending-orders" class="mb-5">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white">
+                <h4 class="mb-0">
+                    <i class="fas fa-clock text-warning me-2"></i>
+                    Pending Orders
+                </h4>
+            </div>
+            <div class="card-body">
+                {% if pending_orders %}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Order #</th>
+                                <th>Customer</th>
+                                <th>Date</th>
+                                <th>Total</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for order in pending_orders %}
+                            <tr>
+                                <td>#{{ order.id }}</td>
+                                <td>{{ order.user.username }}</td>
+                                <td>{{ order.created_at|date:"M d, Y" }}</td>
+                                <td>€{{ order.total_price }}</td>
+                                <td>
+                                    <span class="badge bg-warning">Processing</span>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="text-center py-4">
+                    <i class="fas fa-check-circle fa-3x text-muted mb-3"></i>
+                    <p class="text-muted">No pending orders.</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Completed Orders Section -->
+    <section id="completed-orders">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white">
+                <h4 class="mb-0">
+                    <i class="fas fa-check-circle text-success me-2"></i>
+                    Completed Orders
+                </h4>
+            </div>
+            <div class="card-body">
+                {% if completed_orders %}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Order #</th>
+                                <th>Customer</th>
+                                <th>Date</th>
+                                <th>Total</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for order in completed_orders %}
+                            <tr>
+                                <td>#{{ order.id }}</td>
+                                <td>{{ order.user.username }}</td>
+                                <td>{{ order.created_at|date:"M d, Y" }}</td>
+                                <td>€{{ order.total_price }}</td>
+                                <td>
+                                    <span class="badge bg-success">Delivered</span>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="text-center py-4">
+                    <i class="fas fa-box-open fa-3x text-muted mb-3"></i>
+                    <p class="text-muted">No completed orders yet.</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+</div>
+
+
+{% endblock %}

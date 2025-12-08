@@ -26,13 +26,13 @@
                 <i class="fas fa-shopping-bag me-1"></i> Orders
             </h6>
             <div class="category-list">
-                <a href="#" class="category-link d-block py-2 px-3 rounded text-decoration-none mb-2">
+                <a href="{% url 'employee_dash:orders' %}#all-orders" class="category-link d-block py-2 px-3 rounded text-decoration-none mb-2">
                     All Orders
                 </a>
-                <a href="#" class="category-link d-block py-2 px-3 rounded text-decoration-none mb-2">
+                <a href="{% url 'employee_dash:orders' %}#pending-orders" class="category-link d-block py-2 px-3 rounded text-decoration-none mb-2">
                     Pending
                 </a>
-                <a href="#" class="category-link d-block py-2 px-3 rounded text-decoration-none mb-2">
+                <a href="{% url 'employee_dash:orders' %}#completed-orders" class="category-link d-block py-2 px-3 rounded text-decoration-none mb-2">
                     Completed
                 </a>
             </div>
@@ -44,44 +44,26 @@
                 <i class="fas fa-box-open me-1"></i> Products
             </h6>
             <div class="category-list">
-                <a href="#" class="category-link d-block py-2 px-3 rounded text-decoration-none mb-2">
+                <a href="{% url 'employee_dash:products' %}#view-products" class="category-link d-block py-2 px-3 rounded text-decoration-none mb-2">
                     View All
                 </a>
-                <a href="#" class="category-link d-block py-2 px-3 rounded text-decoration-none mb-2">
+                <a href="{% url 'employee_dash:products' %}#add-product" class="category-link d-block py-2 px-3 rounded text-decoration-none mb-2">
                     Add New
                 </a>
-                <a href="#" class="category-link d-block py-2 px-3 rounded text-decoration-none mb-2">
-                    Inventory
-                </a>
             </div>
         </div>
         
-        <!-- Customers -->
+        <!-- Categories -->
         <div class="mb-4">
             <h6 class="fw-bold mb-3">
-                <i class="fas fa-users me-1"></i> Customers
+                <i class="fas fa-users me-1"></i> Categories
             </h6>
             <div class="category-list">
-                <a href="#" class="category-link d-block py-2 px-3 rounded text-decoration-none mb-2">
-                    All Customers
+                <a href="{% url 'employee_dash:categories' %}#view-categories" class="category-link d-block py-2 px-3 rounded text-decoration-none mb-2">
+                    View All
                 </a>
-                <a href="#" class="category-link d-block py-2 px-3 rounded text-decoration-none mb-2">
-                    Order History
-                </a>
-            </div>
-        </div>
-        
-        <!-- Reports -->
-        <div class="mb-4">
-            <h6 class="fw-bold mb-3">
-                <i class="fas fa-chart-bar me-1"></i> Reports
-            </h6>
-            <div class="category-list">
-                <a href="#" class="category-link d-block py-2 px-3 rounded text-decoration-none mb-2">
-                    Sales Report
-                </a>
-                <a href="#" class="category-link d-block py-2 px-3 rounded text-decoration-none mb-2">
-                    Inventory Report
+                <a href="{% url 'employee_dash:categories' %}#add-category" class="category-link d-block py-2 px-3 rounded text-decoration-none mb-2">
+                    Add New
                 </a>
             </div>
         </div>

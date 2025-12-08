@@ -1,0 +1,68 @@
+{% extends "base_employee.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+<!-- LINK THE PAGE SPECIFIC CSS -->
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'employee_dash/employee_dash.css' %}">
+{% endblock %}
+
+
+{% block page_subtitle %}Category Management{% endblock %}
+
+{% block content %}
+
+<!-- VIEW ALL CATEGORIES -->
+<div id="view-categories">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3>All Categories</h3>
+    </div>
+
+    <div class="row">
+        {% for cat in categories %}
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">{{ cat.name }}</h5>
+                </div>
+                <div class="card-body">
+                    {% if cat.subcategories.exists %}
+                    <strong>Subcategories:</strong>
+                    <ul>
+                        {% for sub in cat.subcategories.all %}
+                        <li>{{ sub.name }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <p class="text-muted">No subcategories</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p>No categories yet.</p>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- ADD NEW CATEGORY -->
+<div id="add-category" class="mt-5">
+    <h3>Add New Category / Subcategory</h3>
+    <div class="card">
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <div class="text-end mt-4">
+                    <a href="#view-categories" class="btn btn-outline-secondary me-2">Cancel</a>
+                    <button type="submit" class="btn btn-primary btn-lg">
+                        Add Category
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
