@@ -129,6 +129,16 @@ NAVIGATION BAR (ENTIRE SITE)
     }
 }
 
+.nav-icon {
+    color: #0f2b55;
+    transition: 0.3s ease;
+}
+
+.nav-icon:hover {
+    color: #457dd1;
+    transform: translateY(-5px);
+}
+
 
 /* ------------------------------- 
 NAVIGATION BAR (EMPLOYEES)
@@ -319,10 +329,12 @@ PRODUCT STYLES
     text-shadow: none;
 }
 
-.product-image {
-    height: 200px;
+#productsContainer .card-img-top {
+    height: 250px;
     object-fit: cover;
+    width: 100%;
 }
+
 
 /* -------------------------------------------- 
 FORM CONTROLS
@@ -348,5 +360,13 @@ FORM CONTROLS
 
 .alert, alert-info, .errors,
 .form-text, .helptext{
+    font-family: 'Subtitle', Arial, sans-serif !important;
+}
+
+
+/* ----------------------
+TABLE STYLES
+-----------------------*/
+.table-responsive {
     font-family: 'Subtitle', Arial, sans-serif !important;
 }

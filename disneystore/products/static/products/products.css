@@ -17,7 +17,7 @@ GLOBAL TYPOGRAPHY FOR FILTERS
 }
 
 /* Entire page color */
-.row {
+.productList {
     background-color: #8198bb;
     padding: 20px 0;
     border-radius: 20px;
@@ -79,6 +79,44 @@ h6.fw-bold {
     color: white;
 }
 
+/* COLOR STYLES */
+.color-link.no-color i.fa-circle {
+    color: #1b365f;
+}
+
+/* Specific colors */
+.color-link.red i.fa-circle {
+    color: red;
+}
+
+.color-link.green i.fa-circle {
+    color: green;
+}
+
+.color-link.blue i.fa-circle {
+    color: blue;
+}
+
+.color-link.purple i.fa-circle {
+    color: purple;
+}
+
+.color-link.orange i.fa-circle {
+    color: orange;
+}
+
+.color-link.yellow i.fa-circle {
+    color: #FFD700;
+}
+
+/* Multicolor circle */
+.color-link.multicolor i.fa-circle {
+    background: conic-gradient(red, orange, yellow, green, blue, purple);
+}
+.color-link.active {
+    background-color: #1d3f72 !important;
+    color: white !important;
+}
 
 /* Active filters styles */
 #activeFilters {

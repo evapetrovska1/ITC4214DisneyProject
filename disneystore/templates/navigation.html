@@ -16,25 +16,43 @@
     
             <!-- Collapsible menu -->
             <div class="collapse navbar-collapse" id="navbarNav">
-                <div class="text-center w-100">
-                    <ul class="navbar-nav mx-auto flex-row">
+                <div class="d-flex justify-content-between w-100 align-items-center">
+                    <!-- Menu items on the left -->
+                    <ul class="navbar-nav mx-auto">
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'products:product_list' %}">Products</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Categories</a>
+                            <a class="nav-link" href="{% url 'pages:about' %}">About Us</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">About Us</a>
+                            <a class="nav-link" href="{% url 'pages:contact' %}">Contact Us</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Contact</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Support</a>
-                        </li>
+                        <!-- Button displayed ONLY for employees and admins (for the dashboard access)-->
+                        {% if user.is_authenticated and user.is_staff %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'employee_dash:home' %}">Employee Dashboard </a>
+                            </li>    
+                        {% endif %}
                     </ul>
                 </div>
+                <!-- Right: Icons -->
+                <div class="d-flex align-items-center">
+                    <!-- Profile -->
+                    <a href="{% url 'accounts:profile' %}" class="nav-link position-relative">
+                        <i class="fas fa-user fa-2xl nav-icon m-2"></i>
+                    </a>
+                    <!-- Wishlist -->
+                    <a href="{% url 'wishlist:wishlist' %}" class="nav-link position-relative ms-3">
+                        <i class="fas fa-heart fa-2xl nav-icon m-2"></i>
+                    </a>
+
+                    <!-- Shopping Cart -->
+                    <a href="{% url 'cart:cart' %}" class="nav-link position-relative ms-3">
+                        <i class="fas fa-shopping-cart fa-2xl nav-icon m-2"></i>
+                    </a>
+                </div>
+                    
             </div>
         </div>
     </nav>

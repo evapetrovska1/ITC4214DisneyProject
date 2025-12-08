@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -50,6 +51,7 @@ INSTALLED_APPS = [
     'wishlist',
     'employee_dash',
     'cart',
+    'pages',
 ]
 
 MIDDLEWARE = [
@@ -135,6 +137,10 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     BASE_DIR / "static",  # For project-level static; Django automatically loads the apps static files
 ]
+
+# Media files (Uploaded images like product photos)
+MEDIA_URL = '/media/'  # URL to access media files in browser
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Folder where images are stored on server
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

@@ -1,0 +1,359 @@
+{% extends "base.html" %}
+{% load static %}
+{% load product_filters %}
+
+<!-- LOAD THE CSS OF THIS PAGE -->
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'products/products.css' %}">
+{% endblock %}
+
+<!-- LOAD THE JS OF THIS PAGE -->
+{% block extra_js %}
+<script src="{% static 'products/products.js' %}" defer></script>
+<script src="{% static 'products/product_detail.js' %}" defer></script>
+{% endblock %}
+
+
+<!-- TITLE AND SUBTITLE SECTION -->
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block page_title %} Discover each product {% endblock %}
+
+
+{% block content %}
+<div class="container py-4">
+    <div class="row">
+        <!-- Product Image -->
+        <div class="col-lg-6 mb-4">
+            <div class="card border-0 shadow-lg">
+                <div class="card-body p-4 text-center">
+                    {% if product.image %}
+                    <img src="{{ product.image.url }}" 
+                         class="img-fluid rounded product-main-image" 
+                         alt="{{ product.name }}">
+                    {% else %}
+                    <div class="d-flex align-items-center justify-content-center bg-light rounded">
+                        <i class="fas fa-magic fa-4x text-warning"></i>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Product Info -->
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header">
+                    <h1>{{ product.name }}</h1>
+                </div>
+                <div class="card-body p-4">
+                    <!-- Price -->
+                    <div class="mb-4">
+                        <h2 class="mb-2">
+                            €{{ product.price }}
+                        </h2>
+                        <div class="d-flex align-items-center mb-3">
+                            <span class="badge bg-success me-2">
+                                <i class="fas fa-check-circle me-1"></i>
+                                {% if product.stock > 10 %}
+                                In Stock
+                                {% elif product.stock > 0 %}
+                                Low Stock
+                                {% else %}
+                                Out of Stock
+                                {% endif %}
+                            </span>
+                            <span class="badge bg-info">
+                                <i class="fas fa-box me-1"></i>
+                                {{ product.stock }} left
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Category & Color -->
+                    <div class="mb-4">
+                        <p class="mb-2">
+                            <strong><i class="fas fa-tag text-primary me-2"></i>Category:</strong>
+                            {{ product.category.name }}
+                        </p>
+                        <p class="mb-3">
+                            <strong><i class="fas fa-palette text-primary me-2"></i>Color:</strong>
+                            {{ product.color.name }}
+                        </p>
+                    </div>
+
+                    <!-- Description -->
+                    {% if product.description %}
+                    <div class="mb-4">
+                        <h5>
+                            <i class="fas fa-scroll text-warning me-2"></i>
+                            Product Story
+                        </h5>
+                        <p class="mb-0" style="line-height: 1.8;">
+                            {{ product.description }}
+                        </p>
+                    </div>
+                    {% endif %}
+
+                    <!-- Quick Info -->
+                    <div class="mb-4">
+                        <div class="row">
+                            <div class="col-md-6 mb-2">
+                                <div class="d-flex align-items-center">
+                                    <div class="bg-primary bg-opacity-10 p-2 rounded me-3">
+                                        <i class="fas fa-calendar text-primary"></i>
+                                    </div>
+                                    <div>
+                                        <small class="text-muted d-block">Added</small>
+                                        <strong>{{ product.created_at|date:"M d, Y" }}</strong>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <div class="d-flex align-items-center">
+                                    <div class="bg-success bg-opacity-10 p-2 rounded me-3">
+                                        <i class="fas fa-shipping-fast text-success"></i>
+                                    </div>
+                                    <div>
+                                        <small class="text-muted d-block">Delivery</small>
+                                        <strong>3-5 Days</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Star Rating Section -->
+                    <div class="star-rating-section mb-4 p-3 bg-light rounded">
+                        <div class="row align-items-center">
+                            <!-- Left side: Average Customer Rating -->
+                            <div class="col-md-6 mb-3 mb-md-0">
+                                <h6 class="mb-2">
+                                    <i class="fas fa-star text-warning me-2"></i>
+                                    Customer Rating
+                                </h6>
+                                <div class="d-flex align-items-center">
+                                    <!-- Get the average rating calculated from the template tags -->
+                                    {% with avg_rating=product.ratings.all|avg_rating %}
+                                    <span class="fs-2 fw-bold me-2" id="avg-rating">
+                                        {{ avg_rating|floatformat:1|default:"0.0" }}
+                                    </span>
+                                    <div class="stars-display me-2">
+                                        <!-- Loop through -->
+                                        {% for i in "12345" %}
+                                            {% with forloop.counter as star_num %}
+                                            <i class="fas fa-star {% if star_num <= avg_rating %}text-warning{% else %}text-muted{% endif %}"></i>
+                                            {% endwith %}
+                                        {% endfor %}
+                                    </div>
+                                    {% endwith %}
+                                    <small class="text-muted">({{ product.ratings.count }})</small>
+                                </div>
+                            </div>
+
+                            <!-- Right side: Rate This Product -->
+                            <div class="col-md-6">
+                                <!-- Only if the user is logged in -->
+                                {% if user.is_authenticated %}
+                                <div class="text-center">
+                                    <small class="text-muted d-block mb-2">Rate this product:</small>
+                                    <div class="star-rating mb-2" data-product-id="{{ product.id }}">
+                                        {% with user_rating=product.ratings.filter|get_user_rating:user %}
+                                        {% for i in "12345" %}
+                                            {% with forloop.counter as value %}
+                                            <i class="star fa-star fs-4 rating-star {% if user_rating and value <= user_rating.stars %}fas text-warning{% else %}far{% endif %}"
+                                            data-value="{{ value }}"
+                                            style="cursor: pointer; margin: 0 2px;"></i>
+                                            {% endwith %}
+                                        {% endfor %}
+                                        {% endwith %}
+                                    </div>
+                                    <small id="rating-message" class="text-muted"></small>
+                                </div>
+                                {% else %}
+                                <div class="text-center">
+                                    <small class="text-muted">
+                                        <a href="{% url 'accounts:login' %}">Log in</a> to rate this product
+                                    </small>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    {% csrf_token %} <!-- Against SQL injections -->
+
+                    <!-- Action Buttons -->
+                    <div class="border-top pt-4">
+                        <div class="row g-3">
+                            <div class="col-md-8">
+                                <button class="btn btn-primary btn-lg w-100 add-to-cart-btn" 
+                                        data-product-id="{{ product.id }}"
+                                        {% if product.stock == 0 %}disabled{% endif %}>
+                                    <i class="fas fa-magic-wand-sparkles me-2"></i>
+                                    {% if product.stock == 0 %}Out of Stock{% else %}Add to Cart{% endif %}
+                                </button>
+                            </div>
+                            <div class="col-md-4">
+                                {% if user.is_authenticated %}
+                                    {% if product in user_wishlist %}
+                                    <button class="btn btn-danger w-100 wishlist-toggle-heart"
+                                            data-product-id="{{ product.id }}">
+                                        <i class="fas fa-heart"></i>
+                                    </button>
+                                    {% else %}
+                                    <button class="btn btn-outline-danger w-100 wishlist-toggle-heart"
+                                            data-product-id="{{ product.id }}">
+                                        <i class="far fa-heart"></i>
+                                    </button>
+                                    {% endif %}
+                                {% else %}
+                                    <button class="btn btn-outline-secondary w-100" disabled>
+                                        <i class="far fa-heart"></i>
+                                    </button>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="mt-3">
+                            <a href="{% url 'products:product_list' %}" class="btn button-general w-100">
+                                <i class="fas fa-arrow-left me-2"></i>Back to Collection
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr class="my-5">
+
+    <h3 class="mb-4">Some other ✨ magical ✨ items </h3>
+
+    <!-- The grid of the recommended products (same format as the products page) -->
+    <div class="row" id="productsContainer">
+        
+        <!-- Loop through all of the related products -->
+        {% for product in related_products %}
+        <div class="col-lg-4 col-md-6 mb-4">
+            <a href="{% url 'products:product_detail' product.slug %}" class="text-decoration-none text-dark">
+                <div class="card h-100">
+                    <div class="position-relative">
+                        
+                        <!-- Display the product image at the top of the card (if there is one)-->
+                        {% if product.image %}
+                        <img src="{{ product.image.url }}" class="card-img-top product-image" alt="{{ product.name }}">
+                        {% else %}
+                        <div class="card-img-top bg-light d-flex align-items-center justify-content-center">
+                            <i class="fas fa-image fa-3x text-muted"></i>
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Product description in the card body-->
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <p class="card-text text-muted small">
+                            {{ product.description|truncatechars:80 }}
+                        </p>
+
+                        <!-- Price -->
+                        <div class="mb-3">
+                            <span class="h5 text-primary">€{{ product.price }}</span>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="d-flex justify-content-between">
+                            
+                            <!-- Add to Cart Functionality -->
+                            <button class="btn btn-sm btn-primary add-to-cart-btn" 
+                                    data-product-id="{{ product.id }}">
+                                <i class="fas fa-cart-plus me-1"></i> Add to Cart
+                            </button>
+
+                            <!-- Wishlist Heart Functionality -->
+                            {% if user.is_authenticated %}
+                                {% if product in user.wishlist.products.all %}
+                                    <button class="btn btn-sm wishlist-toggle-heart btn-danger"
+                                            data-product-id="{{ product.id }}">
+                                        <i class="fas fa-heart"></i>
+                                    </button>
+                                {% else %}
+                                    <button class="btn btn-sm wishlist-toggle-heart btn-outline-danger"
+                                            data-product-id="{{ product.id }}">
+                                        <i class="far fa-heart"></i>
+                                    </button>
+                                {% endif %}
+                            {% else %}
+                                <button class="btn btn-sm btn-outline-secondary" disabled>
+                                    <i class="far fa-heart"></i>
+                                </button>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </a>
+            
+            
+        </div>
+        {% empty %}
+        <div class="col-12 text-center py-5">
+            <i class="fas fa-box-open fa-3x mb-3 text-muted"></i>
+            <h4>No products found</h4>
+        </div>
+        {% endfor %}
+    </div>
+
+    
+    <!-- Fun Section: Magical Details -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <h4 class="mb-4 text-center">
+                        <i class="fas fa-sparkles text-warning me-2"></i>
+                        Magical Details
+                        <i class="fas fa-sparkles text-warning ms-2"></i>
+                    </h4>
+                    
+                    <div class="row text-center">
+                        <div class="col-md-3 mb-3">
+                            <div class="p-3 rounded bg-light">
+                                <i class="fas fa-crown fa-2x text-warning mb-2"></i>
+                                <h6 class="mb-1">Official Disney</h6>
+                                <small class="text-muted">Authentic Product</small>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="p-3 rounded bg-light">
+                                <i class="fas fa-award fa-2x text-success mb-2"></i>
+                                <h6 class="mb-1">1-Year Warranty</h6>
+                                <small class="text-muted">Quality Guarantee</small>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="p-3 rounded bg-light">
+                                <i class="fas fa-gift fa-2x text-danger mb-2"></i>
+                                <h6 class="mb-1">Perfect Gift</h6>
+                                <small class="text-muted">Free Gift Wrap</small>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="p-3 rounded bg-light">
+                                <i class="fas fa-shipping-fast fa-2x text-primary mb-2"></i>
+                                <h6 class="mb-1">Fast Shipping</h6>
+                                <small class="text-muted">Free over €50</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+
+{% endblock %}

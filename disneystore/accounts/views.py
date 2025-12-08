@@ -5,6 +5,7 @@ from .forms import CustomUserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from wishlist.models import WishlistItem
+from .models import OrderItem, Order
 
 # ------------------ VIEW FOR USER REGISTRATION ------------------
 def register_view(request):
@@ -90,14 +91,18 @@ def profile_view(request):
     cart_total = sum(float(item['price']) * item['quantity'] for item in cart_items)
     cart_count = sum(item['quantity'] for item in cart_items)
 
-    # Get the wishlist items
-    wishlist_items = WishlistItem.objects.filter(user=request.user).select_related('product')
+    # Get the wishlist items (top 3)
+    wishlist_items = WishlistItem.objects.filter(user=request.user).select_related('product')[:3]
+
+    # Get user's orders (last 10)
+    user_orders = Order.objects.filter(user=request.user).order_by('-created_at')[:10]
 
 
     # Get all of the information
     context = {
         'join_date': request.user.date_joined.strftime("%B %Y"),
         'wishlist_items': wishlist_items,
+        'user_orders': user_orders,
         'cart_items': cart_items,
         'cart_total': cart_total,
         'cart_count': cart_count,

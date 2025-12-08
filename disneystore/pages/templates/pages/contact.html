@@ -1,0 +1,218 @@
+{% extends "base.html" %}
+{% load static %}
+
+<!-- LOAD THE CSS OF THIS PAGE -->
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'pages/contact.css' %}">
+{% endblock %}
+
+<!-- LOAD THE JS OF THIS PAGE -->
+{% block extra_js %}
+<script src="{% static 'pages/contact.js' %}" defer></script>
+{% endblock %}
+
+
+<!-- TITLE AND SUBTITLE SECTION -->
+{% block title %} Contact Us {% endblock %}
+
+{% block page_title %} Contact Us {% endblock %}
+
+{% block page_subtitle %} Get In Touch With Our Team {% endblock %}
+
+{% block content %}
+<!-- ----- CONTACT CONTENT ----- -->
+
+<!-- Section: Contact Form  -->
+<!-- Using the same format as the one in the tasks -->
+<section class="contact p-2 mx-4 my-4 rounded"> 
+<div class="container-lg">
+    <h1 class="my-2 mb-3 text-center"> Send an Adventure Our Way </h1>
+    <p class="lead mb-5 text-center">
+        Like Shrek's swamp or Po's noodle shop, we're always open! Share your thoughts, questions, 
+        or magical ideas with the Disney kingdom.
+    </p>
+    
+    <!-- The Form-->
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <form id="contactForm">
+
+                <!-- Name Fields (optional)-->
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="fName" class="form-label fw-bold">First Name (Optional)</label>
+                        <input type="text" class="form-control" id="fName" placeholder="e.g., Alex">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="lName" class="form-label fw-bold">Last Name (Optional)</label>
+                        <input type="text" class="form-control" id="lName" placeholder="e.g., The Lion">
+                    </div>
+                </div>
+
+
+                <!-- Email (Required) -->
+                <div class="mb-3">
+                    <label for="email" class="form-label fw-bold">Email *</label>
+                    <input type="text" class="form-control" id="email" placeholder="e.g., alexIsAwesome@gmail.com">
+                </div>
+
+                <!-- Subject (Required) -->
+                <div class="mb-3">
+                    <label for="subject" class="form-label fw-bold">Subject *</label>
+                    <input type="text" class="form-control" id="subject" placeholder="e.g., Why is Melman so stupid?">
+                </div>
+
+                <!-- Message Field -->
+                <div class="mb-4">
+                    <label for="contactMessage" class="form-label fw-bold">Your Message *</label>
+                    <textarea class="form-control" id="contactMessage" rows="5" maxlength="500" placeholder="Whisper your thoughts to the magic mirror... What messages, questions, or enchanted ideas do you have for us?" required></textarea>
+                    <!-- Counter on the bottom right for the characters -->
+                    <div class="text-end mt-2">
+                        <div class="form-text">
+                            <span id="contactcharCount" class="fw-bold text-success">0</span>/500 characters
+                        </div>
+                    </div>
+                    <!-- Give a warning when the user is approaching the limit-->
+                        <div id="contactcharWarning" class="text-danger small mt-1" style="display: none;">
+                        ⚠️ You're approaching the character limit!
+                    </div>
+                </div>
+
+                <!-- Submit Button  -->
+                <div class="text-center">
+                    <button type="submit" class="btn btn-lg px-5 button-general">
+                        <i class="me-2 "></i>🚀 Launch Your Message
+                    </button>
+                </div>
+
+                <!-- Required fields note -->
+                <div class="text-center mt-3">
+                    <small class="text-muted">* Required fields. Posts without names will appear as "Anonymous".</small>
+                </div>
+
+            </form>
+        </div>
+</div> 
+</section>
+
+<!-- Section: Google Maps Integration & Social Media Icons -->
+<section class="location p-2 mx-4 my-4 rounded"> 
+    <div class="container-lg">
+        <h1 class="my-2 mb-2 text-center"> Looking for Us? </h1>
+        <p class="lead mb-4 text-center">
+            DreamWorks Discussion Hub was created for you —the fans who laugh with Shrek, 
+            soar with Toothless, and dream with Po. This is your space to dive deeper into the 
+            stories you love.
+        </p>
+
+        <!-- Map Container -->
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-4">
+                <div class="map-container rounded shadow">
+                    <!-- Google Maps Embed -->
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3301.5758449600116!2d-118.2875785236874!3d34.15719217311769!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c2c06d00a49d99%3A0x275b2c9537b99082!2sDreamworks%20Animation%20LLC!5e0!3m2!1sen!2sgr!4v1762376103335!5m2!1sen!2sgr" 
+                        width="100%" 
+                        height="400" 
+                        style="border:0; border-radius: 8px;" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+            </div>
+            
+            <div class="col-lg-6 mb-4">
+                <div class="location-info p-4">
+                    <h4 class="mb-3 fw-bold">📍 Disney Animation Campus</h4>
+                    
+                    <div class="contact-details">
+                        <div class="detail-item mb-3">
+                            <strong>🏢 Address:</strong>
+                            <p class="mb-0">1000 Flower St, Glendale, CA 91201, USA</p>
+                        </div>
+                        
+                        <div class="detail-item mb-3">
+                            <strong>🌐 Website:</strong>
+                            <p class="mb-0">
+                                <a href="https://www.dreamworks.com" class="text-decoration-none" target="_blank">
+                                    www.disney.com
+                                </a>
+                            </p>
+                        </div>
+                        
+                        <div class="detail-item mb-3">
+                            <strong>📞 Phone:</strong>
+                            <p class="mb-0">+1 (818) 695-5000</p>
+                        </div>
+                        
+                        <div class="detail-item">
+                            <strong>🕒 Hours:</strong>
+                            <p class="mb-0">Monday - Friday: 9:00 AM - 6:00 PM</p>
+                            <p class="mb-0">Saturday - Sunday: Closed</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <p class="fst-italic text-muted">
+                            <small>
+                                💡 <strong>Note:</strong> While our physical campus is in Glendale, 
+                                this Disney Store lives entirely online! 
+                                You're always welcome here in our digital community.
+                            </small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Social Media Icons -->
+        <div class="row justify-content-center g-4">
+            <h4 class="mb-3 fw-bold text-center mt-3"> Follow Us on Our Socials </h4>
+            <!-- Facebook -->
+            <div class="col-md-4 col-lg-3 text-center">
+                <a href="https://www.facebook.com/dreamworks/" target="_blank" class="social-media-link">
+                    <div class="feature-square">
+                        <div class="square-image">
+                            <img src="{% static 'pages/images/socialmedia/facebook.png' %}" alt="Facebook" class="square-img">
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Instagram -->
+            <div class="col-md-4 col-lg-3 text-center">
+                <a href="https://www.instagram.com/dreamworks/" target="_blank" class="social-media-link">
+                    <div class="feature-square">
+                        <div class="square-image">
+                            <img src="{% static 'pages/images/socialmedia/instagram.png' %}"alt="Instagram" class="square-img">
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Twitter -->
+            <div class="col-md-4 col-lg-3 text-center">
+                <a href="https://twitter.com/DreamWorks" target="_blank" class="social-media-link">
+                    <div class="feature-square">
+                        <div class="square-image">
+                            <img src="{% static 'pages/images/socialmedia/twitter.png' %}" alt="Twitter" class="square-img">
+                        </div>
+                    </div>
+                </a>
+            </div>
+            
+            <!-- Youtube -->
+            <div class="col-md-4 col-lg-3 text-center">
+                <a href="https://www.youtube.com/user/DreamWorksAnimation" target="_blank" class="social-media-link">
+                    <div class="feature-square">
+                        <div class="square-image">
+                            <img src="{% static 'pages/images/socialmedia/youtube.png' %}" alt="Youtube" class="square-img">
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>  
+</section>
+{% endblock %}

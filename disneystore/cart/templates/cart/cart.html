@@ -79,23 +79,16 @@
                         <tbody>
                             {% for item in cart_items %}
                             <tr class="cart-item-row">
-                                <!-- Product Image-->
+                                <!-- Product ID -->
                                 <td>
-                                    {% if item.image %}
-                                    <img src="{{ item.image.url }}" class="card-img-top" alt="{{ item.name }}" class="product-image">
-                                    {% else %}
-                                    <div class="card-img-top bg-light d-flex align-items-center justify-content-center">
-                                        <i class="fas fa-image fa-3x text-muted"></i>
-                                    </div>
-                                    {% endif %}
+                                    <h5 class="cart-item-id  mb-0">
+                                        Product ID: {{ item.id }}
+                                    </h5>
                                 </td>
 
                                 <!-- Item Name -->
                                 <td>
                                     <h5 class="cart-item-title"> {{ item.name }}</h5>
-                                    <p class="cart-item-id small text-muted mb-0">
-                                        Product ID: {{ item.id }}
-                                    </p>
                                     <a href="{% url 'cart:remove' item.id %}" class="text-danger">
                                             <i class="fas fa-trash me-1"></i> Remove
                                     </a>

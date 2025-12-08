@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.text import slugify
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.contrib.auth import get_user_model
 
 # Create the blueprint for the categorical filters
 class Category(models.Model):
@@ -66,26 +67,24 @@ class Product(models.Model):
             self.slug = slug
         super().save(*args, **kwargs)
 
+    # Return the name
     def __str__(self):
         return self.name
  
-class Rating(models.Model):
-    product = models.ForeignKey(
-        Product, 
-        on_delete=models.CASCADE, 
-        related_name="ratings" # Reverse relationship, so you can access rating.product and product.ratings.all() later on
-    )
-    # user = models.ForeignKey(User, on_delete=models.CASCADE) --------------------------- ADD USERS LATER ---------------------------
+# Make a rating class
+class ProductRating(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='ratings') # Take the product
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE) # Get the user who is rating it
+    # The star values numerically from 1 to 5
     stars = models.PositiveSmallIntegerField(
-        default=1,
-        validators=[MinValueValidator(1), MaxValueValidator(5)] # Set validators for the rating
+        validators=[MinValueValidator(1), MaxValueValidator(5)]
     )
-    comment = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
-    # class Meta: --------------------------- AGAIN FOR THE USER ---------
-    #     unique_together = ("product", "user")  # one rating per user per product
+    class Meta:
+        unique_together = ('product', 'user')  # One rating per user
+        ordering = ['-created_at']
 
+    # Return the user, product, and the stars
     def __str__(self):
-        return f"{self.product.name} - {self.stars} stars"
-
+        return f"{self.user} → {self.product} → {self.stars} stars"

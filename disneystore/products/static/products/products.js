@@ -68,7 +68,7 @@ $(document).ready(function() {
     // 3. COLOR SELECTION FUNCTIONALITY
     // --------------------------------
 
-    $('.color-link').click(function(e) {
+    $(document).on('click', '.color-link', function(e) {
         // Prevent the default again
         e.preventDefault();
 
@@ -236,6 +236,7 @@ $(document).ready(function() {
        
     });
 
+
     // ----------------------------------------------------
     // 7. ADDING TO/REMOVING FROM SHOPPING CART
     // ----------------------------------------------------
@@ -319,5 +320,7 @@ $(document).ready(function() {
         });
 
     });
+
+
 
 });

@@ -10,7 +10,7 @@
 
 <!-- LOAD THE JS OF THIS PAGE -->
 {% block extra_js %}
-<script src="{% static 'accounts/accounts.js' %}" defer></script>
+<script src="{% static 'products/products.js' %}" defer></script>
 {% endblock %}
 
 
@@ -89,7 +89,7 @@
     <div class="col-lg-9 col-md-8">
         
         <!-- SECTION 1: PROFILE INFO -->
-        <div id="profile" class="card mb-4">
+        <div id="profile" class="card mb-5">
             <h4 class="card-header mb-4">
                 <i class="fas fa-user-edit me-2"></i>Profile Information
             </h4>
@@ -157,7 +157,221 @@
         </div>
 
 
+        <!-- SECTION 2: MY ORDERS -->
+        <div id="orders" class="card mb-5">
+            <h4 class="card-header mb-4">
+                <i class="fas fa-shopping-bag me-2"></i>My Orders
+            </h4>
 
+            <div class="card-body">
+                <!-- Loop through the user's orders and display the information -->
+                {% if user_orders %}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Order #</th>
+                                <th>Date</th>
+                                <th>Total</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for order in user_orders %}
+                            <tr>
+                                <td><strong>#{{ order.id }}</strong></td>
+                                <td>{{ order.created_at|date:"M d, Y" }}</td>
+                                <td>€{{ order.total_price }}</td>
+                                <td>
+                                    {% if order.status == 'Delivered' %}
+                                    <span class="badge bg-success">Delivered</span>
+                                    {% elif order.status == 'Shipped' %}
+                                    <span class="badge bg-info">Shipped</span>
+                                    {% elif order.status == 'Processing' %}
+                                    <span class="badge bg-warning">Processing</span>
+                                    {% else %}
+                                    <span class="badge bg-danger">{{ order.status }}</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <!-- If the user doesn't have any orders placed -->
+                {% else %}
+                <div class="text-center py-4">
+                    <i class="fas fa-shopping-bag fa-3x text-muted mb-3"></i>
+                    <p class="text-muted">You haven't placed any orders yet.</p>
+                    <a href="{% url 'products:product_list' %}" class="btn btn-primary">
+                        <i class="fas fa-store me-2"></i>Start Shopping
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+
+        <!-- SECTION 3: MY WISHLIST -->
+        <div id="wishlist" class="card mb-5">
+            <h4 class="card-header mb-4">
+                <i class="fas fa-heart text-danger me-2"></i>My Wishlist
+            </h4>
+
+            <div class="card-body">
+                <!-- Loop through the user's wishlist items and display the information -->
+                {% if wishlist_items %}
+                <div class="row">
+                    <!-- Only display the first 3-->
+                    {% for item in wishlist_items|slice:":3" %}
+                    <div class="col-lg-4 col-md-6 mb-4 wishlist-item" data-product-id="{{ item.product.id }}">
+                        <div class="card h-100">
+                            <div class="position-relative">
+                                <!-- Product Image -->
+                                {% if item.product.image %}
+                                <img src="{{ item.product.image.url }}" class="image-card" alt="{{ item.product.name }}">
+                                {% else %}
+                                <div class="card-img-top bg-light d-flex align-items-center productImage justify-content-center">
+                                    <i class="fas fa-image fa-3x text-muted"></i>
+                                </div>
+                                {% endif %}
+                            </div>
+                            
+                            <!-- Product Details -->
+                            <div class="card-body">
+                                <h5 class="card-title">{{ item.product.name }}</h5>
+                                <p class="card-text text-muted small mb-2">
+                                    {{ item.product.description|truncatechars:80 }}
+                                </p>
+                                
+                                <!-- Price -->
+                                <div class="mb-3">
+                                    <span class="h5 text-primary">€{{ item.product.price }}</span>
+                                    <small class="text-muted ms-2">
+                                        Added {{ item.added_at|timesince }} ago
+                                    </small>
+                                </div>
+                            </div>
+                                
+                            <!-- Action Buttons -->
+                            <div class="d-flex justify-content-between m-4">
+                                <!-- Add to Cart Functionality -->
+                                <button class="btn btn-sm btn-primary add-to-cart-btn" 
+                                        data-product-id="{{ item.product.id }}">
+                                    <i class="fas fa-cart-plus me-1"></i> Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                </div>
+
+                <!-- VIEW ENTIRE WISHLIST BUTTON -->
+                <div class="mt-4 text-md-end">
+                    <a href="{% url 'wishlist:wishlist' %}" class="btn btn-outline-danger btn-lg">
+                        <i class="fas fa-heart me-2"></i> View Entire Wishlist
+                        <span class="badge bg-danger ms-2">{{ wishlist_items.count }}</span>
+                    </a>
+                </div>
+
+                {% else %}
+                <div class="text-center py-4">
+                    <i class="fas fa-heart fa-3x text-muted mb-3"></i>
+                    <p class="text-muted">Your wishlist is empty.</p>
+                    <a href="{% url 'products:product_list' %}" class="btn btn-outline-danger">
+                        <i class="fas fa-heart me-2"></i>Add Items to Wishlist
+                    </a>
+                </div>
+                {% endif %}
+
+
+            </div>
+        </div>
+
+
+        
+        <!-- SECTION 4: MY CART -->
+        <div id="cart" class="card mb-5">
+            <h4 class="card-header mb-4">
+                <i class="fas fa-shopping-cart text-warning me-2"></i>My Cart
+            </h4>
+
+            <div class="card-body">
+                <!-- Loop through the user's cart items and display the information -->
+                {% if cart_items %}
+                <div class="row">
+                    <!-- Only display the first 3 -->
+                    {% for item in cart_items|slice:":3" %}
+                    <div class="col-lg-4 col-md-6 mb-4 cart-item" data-product-id="{{ item.product.id }}">
+                        <div class="card h-100">
+                            <div class="position-relative">
+                                <!-- Product Image -->
+                                {% if item.product.image %}
+                                <img src="{{ item.product.image.url }}" class="image-card" alt="{{ item.product.name }}">
+                                {% else %}
+                                <div class="card-img-top bg-light d-flex align-items-center productImage justify-content-center">
+                                    <i class="fas fa-image fa-3x text-muted"></i>
+                                </div>
+                                {% endif %}
+                            </div>
+                            
+                            <!-- Product Details -->
+                            <div class="card-body">
+                                <h5 class="card-title">{{ item.product.name }}</h5>
+                                <p class="card-text text-muted small mb-2">
+                                    {{ item.product.description|truncatechars:80 }}
+                                </p>
+                                
+                                <!-- Price -->
+                                <div class="mb-3">
+                                    <span class="h5 text-primary">€{{ item.product.price }}</span>
+                                    <small class="text-muted ms-2">
+                                        Quantity: {{ item.quantity }}
+                                    </small>
+                                </div>
+                            </div>
+                        </div>    
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Cart Summary -->
+                <div class="cart-summary border-top pt-4 mt-3">
+                    <div class="row align-items-center">
+                        <div class="col-md-6">
+                            <h5 class="mb-2">
+                                Cart Total: <span class="text-primary">€{{ cart_total|floatformat:2 }}</span>
+                            </h5>
+                            <p class="text-muted small mb-0">
+                                <i class="fas fa-box me-1"></i> {{ cart_items.count }} item{{ cart_items.count|pluralize }} in cart
+                            </p>
+                        </div>
+                        <div class="col-md-6 text-md-end mt-3 mt-md-0">
+                            <!-- VIEW ENTIRE CART BUTTON -->
+                            <a href="{% url 'cart:cart' %}" class="btn btn-primary btn-lg me-3">
+                                <i class="fas fa-shopping-cart me-2"></i> View Entire Cart
+                            </a>
+                            
+                            <!-- PROCEED TO CHECKOUT -->
+                            <a href="{% url 'cart:checkout' %}" class="btn btn-outline-secondary btn-lg">
+                                <i class="fas fa-credit-card me-2"></i> Checkout
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                {% else %}
+                <div class="text-center py-4">
+                    <i class="fas fa-shopping-cart fa-3x text-muted mb-3"></i>
+                    <p class="text-muted">Your cart is empty.</p>
+                    <a href="{% url 'products:product_list' %}" class="btn btn-outline-warning">
+                        <i class="fas fa-store me-2"></i>Start Shopping
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
     </div>
 </div>
 

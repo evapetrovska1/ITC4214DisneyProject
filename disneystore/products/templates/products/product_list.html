@@ -22,7 +22,7 @@
 
 
 {% block content %}
-<div class="row justify-content-center">
+<div class="row justify-content-center productList">
     
     <!-- ---------------- FILTERS ON THE LEFT SIDE  ---------------- -->
     <div class="col-lg-3 col-md-4 my-4">
@@ -92,8 +92,7 @@
                         <!-- Loop through all of the colors -->
                         {% for color in colors %}
                         <div class="col-6">
-                            <a href="#" class="color-link d-block text-center text-decoration-none p-2 rounded" data-color="{{ color.id }}">
-                                <!-- Display each color in a circle -->
+                            <a href="#" class="color-link {{ color.name|lower }} d-block text-center text-decoration-none p-2 rounded" data-color="{{ color.id }}">
                                 <div class="mb-1">
                                     <i class="fas fa-circle fa-lg"></i>
                                 </div>
@@ -208,35 +207,37 @@
             
             <!-- Loop through all of the products -->
             {% for product in products %}
+            
             <div class="col-lg-4 col-md-6 mb-4">
-                <div class="card h-100">
-                    <div class="position-relative">
-                        
-                        <!-- Display the product image at the top of the card (if there is one)-->
-                        {% if product.image %}
-                        <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}" class="product-image">
-                        {% else %}
-                        <div class="card-img-top bg-light d-flex align-items-center justify-content-center">
-                            <i class="fas fa-image fa-3x text-muted"></i>
-                        </div>
-                        {% endif %}
-                    </div>
-                    
-                    <!-- Product description in the card body-->
-                    <div class="card-body">
-                        <h5 class="card-title">{{ product.name }}</h5>
-                        <p class="card-text text-muted small">
-                            {{ product.description|truncatechars:80 }}
-                        </p>
-
-                        <!-- Price -->
-                        <div class="mb-3">
-                            <span class="h5 text-primary">€{{ product.price }}</span>
-                        </div>
-
-                        <!-- Action Buttons -->
-                        <div class="d-flex justify-content-between">
+                <a href="{% url 'products:product_detail' product.slug %}" class="text-decoration-none text-dark">
+                    <div class="card h-100">
+                        <div class="position-relative">
                             
+                            <!-- Display the product image at the top of the card (if there is one)-->
+                            {% if product.image %}
+                            <img src="{{ product.image.url }}" class="card-img-top product-image" alt="{{ product.name }}">
+                            {% else %}
+                            <div class="card-img-top bg-light d-flex align-items-center justify-content-center">
+                                <i class="fas fa-image fa-3x text-muted"></i>
+                            </div>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Product description in the card body-->
+                        <div class="card-body">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                            <p class="card-text text-muted small">
+                                {{ product.description|truncatechars:80 }}
+                            </p>
+
+                            <!-- Price -->
+                            <div class="mb-3">
+                                <span class="h5 text-primary">€{{ product.price }}</span>
+                            </div>
+
+                            <!-- Action Buttons -->
+                            <div class="d-flex justify-content-between">
+                                
                                 <!-- Add to Cart Functionality -->
                                 <button class="btn btn-sm btn-primary add-to-cart-btn" 
                                         data-product-id="{{ product.id }}">
@@ -261,9 +262,11 @@
                                         <i class="far fa-heart"></i>
                                     </button>
                                 {% endif %}
+                            </div>
                         </div>
                     </div>
-                </div>
+                </a>
+                
                 
             </div>
             {% empty %}

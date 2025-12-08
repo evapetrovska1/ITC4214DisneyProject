@@ -16,6 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls), # ADMIN urls
@@ -24,5 +26,9 @@ urlpatterns = [
     path('wishlist/', include('wishlist.urls')), # Linking the wishlist urls
     path('employee_dash/', include('employee_dash.urls')), # Linking the employee dashboard urls
     path('cart/', include('cart.urls')), # Linking the cart urls
+    path('pages/', include('pages.urls')),  # Static/general pages
 ]
 
+# Serve media files during development
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
