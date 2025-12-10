@@ -14,9 +14,31 @@ from pathlib import Path
 import os
 
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Check if we're on Render (production)
+if 'RENDER' in os.environ:
+    # Render PostgreSQL
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'disneydb_htzp',
+            'USER': 'disneydb_htzp_user',
+            'PASSWORD': 'GLUuEpEaO1Yffw1msajntJ1yDyDxoC94',
+            'HOST': 'dpg-d4svri2li9vc73c8sk6g-a',
+            'PORT': '5432',
+        }
+    }
+else:
+    # Local SQLite
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
+    }
 
 
 # Quick-start development settings - unsuitable for production
