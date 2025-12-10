@@ -26,7 +26,7 @@ if 'RENDER' in os.environ:
             'ENGINE': 'django.db.backends.postgresql',
             'NAME': 'disneydb_htzp',
             'USER': 'disneydb_htzp_user',
-            'PASSWORD': 'GLUuEpEaO1Yffw1msajntJ1yDyDxoC94',
+            'PASSWORD': os.environ.get('DB_PASSWORD'),  # ← use environment variable
             'HOST': 'dpg-d4svri2li9vc73c8sk6g-a',
             'PORT': '5432',
         }
@@ -36,7 +36,7 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+            'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
 
@@ -109,17 +109,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'disneystore.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/5.2/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
 
 
 # Password validation
