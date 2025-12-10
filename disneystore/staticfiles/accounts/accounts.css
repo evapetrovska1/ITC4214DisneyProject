@@ -1,0 +1,145 @@
+/* 
+---------------------------------
+LOGIN & REGISTER PAGE STYLING
+-----------------------------------
+*/
+
+
+/* -------------------------------------------- 
+STYLES FOR ENTIRE PAGE (MATCHES THE PRODUCTS)
+-----------------------------------------------*/
+.loginPage, .registerPage {
+    background-color: #8198bb;
+    min-height: 70vh;
+    border-radius: 20px;
+    padding: 30px 0;
+    margin: 0;
+}
+
+
+/* -------------------------------------------- 
+STYLES FOR THE CARDS
+-----------------------------------------------*/
+.card.shadow-sm {
+    background: white !important;
+    border-radius: 15px !important;
+    border: 2px solid #8198bb !important;
+    box-shadow: 0 10px 25px rgba(29, 63, 114, 0.2) !important;
+    transition: all 0.3s ease;
+}
+
+/* On hover effect */
+.card.shadow-sm:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(29, 63, 114, 0.3) !important;
+}
+
+/* 
+---------------------------------
+PROFILE PAGE STYLES
+-----------------------------------
+*/
+.profile_picture {
+    width: 120px; 
+    height: 120px; 
+    object-fit: cover; 
+    border: 3px solid #8198bb;
+}
+.list-group {
+    font-family: 'Subtitle', Arial, sans-serif !important;
+    color: #1d3f72 !important;
+}
+
+/* POP UP STYLES */
+.profile-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* be in front of all the content */
+}
+
+.profile-popup {
+    background: rgb(224, 224, 224);
+    border-radius: 15px;
+    padding: 0;
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    border: 5px solid #1d3f72;
+}
+
+.profile-popup-header {
+    background: #5088db;
+    color: white;
+    padding: 20px;
+    border-radius: 12px 12px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.popup-close {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+}
+
+.profile-popup-content {
+    padding: 25px;
+}
+
+.popup-details p {
+    margin-bottom: 10px;
+}
+
+.popup-thankyou {
+    text-align: center;
+    font-weight: bold;
+    margin-top: 20px;
+    color: #1d3f72;
+}
+
+.profile-popup-footer {
+    padding: 20px;
+    text-align: center;
+    border-top: 1px solid #eee;
+}
+
+.productImage {
+    height: 200px; 
+    object-fit: cover;
+}
+
+/* 
+---------------------------------
+PASSWORD CHANGE STYLES
+-----------------------------------
+*/
+/* Target Django password input widgets */
+input[type="password"] {
+    font-family: 'Subtitle', Arial, sans-serif !important;
+    border: 2px solid #8198bb !important;
+    border-radius: 8px !important;
+    padding: 12px 15px !important;
+    font-size: 1rem !important;
+    transition: all 0.3s ease !important;
+    width: 100% !important;
+}
+
+/* Focus state */
+input[type="password"]:focus {
+    border-color: #1d3f72 !important;
+    box-shadow: 0 0 0 0.25rem rgba(29, 63, 114, 0.25) !important;
+    outline: none !important;
+}

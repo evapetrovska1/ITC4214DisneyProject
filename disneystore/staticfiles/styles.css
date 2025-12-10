@@ -1,0 +1,476 @@
+/* ------------------------------- 
+GLOBAL FONT STYLES
+------------------------------- */
+@font-face {
+    font-family: 'Title';
+    src: url('fonts/Slackey.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Subtitle';
+    src: url('fonts/McLaren-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+h1 {
+    font-family: 'Title', Arial, sans-serif;
+    text-shadow: 2px 2px #122b4e;
+    color: #1d3f72;
+}
+
+h2, h3, h4, h5 {
+    font-family: 'Subtitle', Arial, sans-serif;
+    color: #1d3f72;
+}
+
+p, .text-muted {
+    font-family: 'Subtitle', Arial, sans-serif;
+}
+
+
+/* ------------------------------- 
+PAGE HEADER SECTION
+------------------------------- */
+/* Background image */
+.page-header {
+background: 
+    url('../static/images/iceage.jpg') center/cover no-repeat;
+position: relative;
+min-height: 40vh;
+overflow: hidden;
+}
+
+/* Background gradient overlay */
+.page-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        45deg,
+        rgba(70, 117, 186, 0.7),
+        rgba(129, 152, 187, 0.7),
+        rgba(181, 201, 232, 0.7)
+    );
+    background-size: 400% 400%;
+    animation: gradientShift 8s ease infinite;
+    z-index: 1;
+}
+
+/* Ensure the content is above the overlay */
+.page-header .container {
+    position: relative;
+    z-index: 2;
+}
+
+
+/* ------------------------------- 
+NAVIGATION BAR (ENTIRE SITE)
+------------------------------- */
+/* Navigation bar styles */
+.navbar-logo {
+    height: 60px;
+    width: auto;
+}
+
+.navbar > .container {
+    display: flex;
+    align-items: center !important; /* Important keyword overrides the Boostrap */
+    height: 100%;
+}
+
+.navbar {
+    background: linear-gradient(135deg, #255194 0%, #457dd1 100%);
+    min-height: 70px;
+    display: flex;
+    align-items: center !important;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+/* Change font for all nav bar text */
+.navbar-brand,
+.navbar-nav .nav-link {
+    font-family: 'Subtitle', Arial, sans-serif;
+    color: white;
+}
+
+/* Hover effects for navbar links */
+.navbar-nav .nav-link {
+    transition: all 0.3s ease; /* Smooth transition for hover effects */
+}
+
+/* Make navbar links lighter on hover */
+.navbar-nav .nav-link:hover {
+    background-color: rgba(188, 194, 202, 0.4) !important; /* Light overlay */
+    color: #ffd700 !important; 
+    transform: scale(1.2);
+}
+
+/* Center navigation items horizontally when expanded (desktop view) */
+@media (min-width: 992px) {
+    .navbar-nav {
+        display: flex;
+        justify-content: center; /* centers the items horizontally */
+        width: 100%;
+    }
+    /* Space between items */
+    .navbar-nav .nav-item {
+        margin: 0 30px;
+    }
+}
+
+.nav-icon {
+    color: #0f2b55;
+    transition: 0.3s ease;
+}
+
+.nav-icon:hover {
+    color: #457dd1;
+    transform: translateY(-5px);
+}
+
+
+
+/* ------------------------------- 
+FOOTER
+------------------------------- */
+.disney-footer {
+    background: linear-gradient(135deg, #255194 0%, #457dd1 100%);
+    color: white;
+    padding: 40px 0 20px;
+    margin-top: 50px;
+    font-family: 'Subtitle', Arial, sans-serif;;
+}
+
+.footer-logo {
+    height: 50px;
+    width: auto;
+    margin-bottom: 15px;
+}
+
+.footer-description {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    line-height: 1.5;
+}
+
+.footer-heading {
+    font-weight: bold;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+    color: white;
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-links li {
+    margin-bottom: 8px;
+}
+
+.footer-links a,
+.social-link {
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    opacity: 0.8;
+}
+
+.footer-links a:hover,
+.social-link:hover {
+    color: #ffd700;
+    opacity: 1;
+    transform: translateX(5px);
+    display: inline-block;
+}
+
+.social-links {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.footer-divider {
+    border-color: rgba(255, 255, 255, 0.3);
+    margin: 20px 0;
+}
+
+.copyright {
+    margin: 0;
+    opacity: 0.8;
+    font-size: 0.9rem;
+}
+
+.footer-link {
+    color: white;
+    text-decoration: none;
+    margin-left: 20px;
+    font-size: 0.9rem;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+.footer-link:hover {
+    opacity: 1;
+    color: #ffd700;
+}
+
+/* Design for smaller screens */
+@media (max-width: 768px) {
+    .dreamworks-footer {
+        text-align: center;
+    }
+    
+    .social-links {
+        align-items: center;
+    }
+    
+    .footer-link {
+        margin: 0 10px;
+    }
+}
+
+
+/* ------------------------------- 
+NAVIGATION BAR (EMPLOYEES)
+------------------------------- */
+/* Override some of the styles so it displays properly */
+
+/* Style for the dropdown menu */
+.employee-navbar .dropdown-menu {
+    background: #255194 !important;
+    border: 2px solid #8198bb !important;
+    border-radius: 8px !important;
+    margin-top: 10px !important;
+}
+/* Dropdown items */
+.employee-navbar .dropdown-item {
+    color: #d0d9e7 !important;
+    font-family: 'Subtitle', Arial, sans-serif !important;
+    padding: 10px 15px !important;
+}
+
+.employee-navbar .navbar-nav {
+    justify-content: flex-end !important; /* Override the center */
+    width: auto !important; /* Override 100% */
+    
+}
+
+.employee-navbar .navbar-nav .nav-item {
+    margin-right: 50px !important; /* Remove the 30px margins */
+}
+
+
+/* ------------------------------- 
+SIDEBAR STYLES (EMPLOYEES)
+------------------------------- */
+
+/* Sidebar container */
+.dashboard-sidebar {
+    width: 250px;
+    background: #8ba3c7;
+    color: white;
+    padding: 20px 0;
+    border-radius: 15px;
+    margin-right: 20px;
+    box-shadow: 5px 5px 15px rgba(29, 63, 114, 0.2);
+}
+
+/* Sidebar headers */
+.sidebar-header {
+    padding: 0 20px 20px 20px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    margin-bottom: 20px;
+}
+
+.sidebar-header h4 {
+    font-family: 'Title', Arial, sans-serif;
+    color: white;
+    margin: 0;
+    font-size: 1.3rem;
+}
+
+/* Header style */
+.category-header {
+    background: #8198bb;
+    color: white;
+    font-family: 'Subtitle', Arial, sans-serif;
+    border: none;
+}
+
+/* Filter titles styling */
+h6.fw-bold {
+    font-family: 'Subtitle', Arial, sans-serif !important;
+    color: #1d3f72 !important;
+}
+
+/* Active category style */
+.category-link.active {
+    background-color: #1d3f72 !important;
+    color: white !important;
+    font-weight: bold;
+    border-radius: 5px;
+    
+}
+
+/* Category style */
+.category-link {
+    color: #1d3f72;
+    font-family: 'Subtitle', Arial, sans-serif;
+}
+
+/* Hover effect */
+.category-link:hover {
+    color: #ffffff;
+    background-color: rgba(70, 106, 160, 0.5);
+}
+
+/* ------------------------------- 
+BUTTON STYLES
+------------------------------- */
+.button-general {
+  background-color: #0d6efd;
+  color: white;
+  font-family: 'Subtitle', Arial, sans-serif;
+  padding: 12px 24px;
+  border-radius: 8px;
+  transition: 0.3s ease;
+  display: inline-block;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(13, 110, 253, 0.2);
+}
+.button-general:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(29, 63, 114, 0.5);
+  background-color: #125cca;
+}
+
+.button-general-two {
+    background-color: #4372b8;
+    color: white;
+    font-family: 'Subtitle', Arial, sans-serif;
+    padding: 12px 24px;
+    border-radius: 8px;
+    transition: 0.3s ease;
+    display: inline-block;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(13, 110, 253, 0.2);
+}
+
+.button-general-two:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(29, 63, 114, 0.5);
+  background-color: #709cde;
+}
+
+.btn-primary {
+    background: #1d3f72;
+    border: none;
+    font-family: 'Subtitle', Arial, sans-serif;
+}
+
+.btn-primary:hover {
+    background: #8198bb;
+    transform: translateY(-2px);
+}
+
+.btn-outline-secondary {
+    color: #1d3f72;
+    border-color: #8198bb;
+    font-family: 'Subtitle', Arial, sans-serif;
+}
+
+.btn-outline-secondary:hover {
+    background: #8198bb;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.btn-outline-danger{
+    font-family: 'Subtitle', Arial, sans-serif;
+}
+
+/* PAGE CONTENT */
+.page-content .container-xl {
+    max-width: 80% !important;
+    width: 80% !important;
+}
+
+
+/* ------------------------------- 
+PRODUCT STYLES
+------------------------------- */
+/* Product cards styles */
+.card.h-100 {
+    border: 1px solid #8198bb;
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+    font-family: 'Subtitle', Arial, sans-serif;
+}
+
+.card.h-100:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(29, 63, 114, 0.2);
+}
+
+.card-body .card-title {
+    font-family: 'Subtitle', Arial, sans-serif;
+    color: #1d3f72;
+    font-weight: bold;
+    text-shadow: none;
+}
+
+#productsContainer .card-img-top {
+    height: 250px;
+    object-fit: cover;
+    width: 100%;
+}
+
+
+/* -------------------------------------------- 
+FORM CONTROLS
+-----------------------------------------------*/
+.form-control {
+    border: 2px solid #8198bb !important;
+    border-radius: 8px !important;
+    padding: 12px 15px !important;
+    font-family: 'Subtitle', Arial, sans-serif !important;
+    transition: all 0.3s ease;
+}
+
+.form-label {
+    font-family: 'Subtitle', Arial, sans-serif !important;
+    color: #1d3f72 !important;
+    font-size: 20px;
+}
+
+.form-control:focus {
+    border-color: #1d3f72 !important;
+    box-shadow: 0 0 0 0.25rem rgba(29, 63, 114, 0.25) !important;
+}
+
+.alert, alert-info, .errors,
+.form-text, .helptext{
+    font-family: 'Subtitle', Arial, sans-serif !important;
+}
+
+
+/* ----------------------
+TABLE STYLES
+-----------------------*/
+.table-responsive {
+    font-family: 'Subtitle', Arial, sans-serif !important;
+}

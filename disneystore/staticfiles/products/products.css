@@ -1,0 +1,152 @@
+/* 
+----------------------
+PRODUCTS PAGE STYLING
+----------------------
+*/
+
+/* ------------------------------- 
+GLOBAL TYPOGRAPHY FOR FILTERS
+------------------------------- */
+.category-list,
+.color-link,
+.filter-section h6,
+.form-label,
+#filterForm button,
+.btn-outline-secondary {
+    font-family: 'Subtitle', Arial, sans-serif !important;
+}
+
+/* Entire page color */
+.productList {
+    background-color: #8198bb;
+    padding: 20px 0;
+    border-radius: 20px;
+}
+
+
+/* ------------------------------- 
+CATEGORY STYLES
+------------------------------- */
+/* Header style */
+.category-header {
+    background: #8198bb;
+    color: white;
+    font-family: 'Subtitle', Arial, sans-serif;
+    border: none;
+}
+
+/* On hover effect */
+.category-header:hover {
+    background: #1d3f72;
+}
+
+/* Filter titles styling */
+h6.fw-bold {
+    font-family: 'Subtitle', Arial, sans-serif !important;
+    color: #1d3f72 !important;
+}
+
+/* Active category style */
+.category-link.active {
+    background-color: #1d3f72 !important;
+    color: white !important;
+    font-weight: bold;
+    border-radius: 5px;
+    
+}
+
+/* Category style */
+.category-link {
+    color: #1d3f72;
+    font-family: 'Subtitle', Arial, sans-serif;
+}
+
+/* Hover effect */
+.category-link:hover {
+    color: #8198bb;
+    background-color: rgba(129, 152, 187, 0.1);
+}
+
+/* Each color */
+.color-link {
+    color: #1d3f72;
+    font-family: 'Subtitle', Arial, sans-serif;
+}
+
+/* Hover effect */
+.color-link:hover {
+    background-color: #8198bb;
+    color: white;
+}
+
+/* COLOR STYLES */
+.color-link.no-color i.fa-circle {
+    color: #1b365f;
+}
+
+/* Specific colors */
+.color-link.red i.fa-circle {
+    color: red;
+}
+
+.color-link.green i.fa-circle {
+    color: green;
+}
+
+.color-link.blue i.fa-circle {
+    color: blue;
+}
+
+.color-link.purple i.fa-circle {
+    color: purple;
+}
+
+.color-link.orange i.fa-circle {
+    color: orange;
+}
+
+.color-link.yellow i.fa-circle {
+    color: #FFD700;
+}
+
+/* Multicolor circle */
+.color-link.multicolor i.fa-circle {
+    background: conic-gradient(red, orange, yellow, green, blue, purple);
+}
+.color-link.active {
+    background-color: #1d3f72 !important;
+    color: white !important;
+}
+
+/* Active filters styles */
+#activeFilters {
+    background: rgba(129, 152, 187, 0.1);
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #8198bb;
+    font-family: 'Subtitle', Arial, sans-serif;
+}
+
+.badge.bg-primary {
+    background: #1d3f72 !important;
+    font-family: 'Subtitle', Arial, sans-serif;
+    padding: 10px 15px !important;
+    font-size: 1rem !important;
+    margin: 0 8px;
+}
+
+/* Price styling */
+.h5.mb-0 {
+    color: #1d3f72;
+    font-family: 'Subtitle', Arial, sans-serif;
+}
+
+/* Empty state */
+.col-12.text-center.py-5 {
+    font-family: 'Subtitle', Arial, sans-serif;
+}
+
+.col-12.text-center.py-5 h4 {
+    font-family: 'Title', Arial, sans-serif;
+    color: #1d3f72;
+}
