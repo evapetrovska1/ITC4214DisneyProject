@@ -23,10 +23,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-3_dns5(qpy)ygcidm*=f1i&0@sue6d_d_9q8(szg%yi(r=wq4u'
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -137,6 +137,7 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     BASE_DIR / "static",  # For project-level static; Django automatically loads the apps static files
 ]
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # Media files (Uploaded images like product photos)
 MEDIA_URL = '/media/'  # URL to access media files in browser
