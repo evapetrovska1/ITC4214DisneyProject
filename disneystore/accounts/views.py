@@ -7,6 +7,7 @@ from django.contrib import messages
 from wishlist.models import WishlistItem
 from .models import OrderItem, Order
 
+
 # ------------------ VIEW FOR USER REGISTRATION ------------------
 def register_view(request):
     if request.method == 'POST':
@@ -73,6 +74,18 @@ def logout_view(request):
 # ------------------ VIEW FOR USER PROFILE ------------------
 @login_required # Users must log in before they access profile
 def profile_view(request):
+    # Get the cart items from the current session
+    cart = request.session.get('cart', {})
+    
+    # DEBUG: Print cart contents
+    print("\n=== DEBUG CART DATA ===")
+    for product_id, item_data in cart.items():
+        print(f"Product ID: {product_id}")
+        for key, value in item_data.items():
+            print(f"  {key}: {value}")
+    print("=======================\n")
+    
+    cart_items = cart.values()
 
     # If the user wishes to change their data
     if request.method == 'POST':

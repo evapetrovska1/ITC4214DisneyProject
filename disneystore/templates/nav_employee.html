@@ -3,7 +3,7 @@
     <nav class="navbar navbar-expand-lg employee-navbar">
         <div class="container-fluid">
             <!-- Logo -->
-            <a class="navbar-brand d-flex align-items-center">
+            <a class="navbar-brand d-flex align-items-center" href="{% url 'products:product_list' %}">
                 <img src="{% static 'images/DisneyLogo1.png' %}" alt="Disney Logo" class="navbar-logo">
             </a>
             <a class="navbar-brand" href="{% url 'employee_dash:home' %}">

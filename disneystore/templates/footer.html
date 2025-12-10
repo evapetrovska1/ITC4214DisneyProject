@@ -1,0 +1,70 @@
+{% load static %}
+<!-- ----- FOOTER ----- -->
+    <footer class="disney-footer">
+        <div class="container-lg">
+            <div class="row">
+                <!-- Logo and Description -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="footer-brand">
+                        <img src="{% static 'images/DisneyLogo1.png' %}" alt="Disney Logo" class="footer-logo">
+                        <p class="footer-description">
+                            Where stories come to life and imagination knows no bounds. 
+                            Join our community of Disney fans!
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5 class="footer-heading">Quick Links</h5>
+                    <ul class="footer-links">
+                        <li class="nav-item">
+                            <a href="{% url 'products:product_list' %}">Products</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'pages:about' %}">About Us</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'pages:contact' %}">Contact Us</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Movies -->
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5 class="footer-heading">Popular Movies</h5>
+                    <ul class="footer-links">
+                        <li><a href="https://www.imdb.com/title/tt0120762/" target="_blank">Mulan Series</a></li>
+                        <li><a href="https://www.imdb.com/list/ls086887750/" target="_blank">Princesses Series</a></li>
+                        <li><a href="https://www.imdb.com/list/ls068935691/" target="_blank">Ice Age Series</a></li>
+                        <li><a href="https://www.imdb.com/title/tt0144700/" target="_blank">101 Dalmations Series</a></li>
+                    </ul>
+                </div>
+
+                <!-- Social Media -->
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5 class="footer-heading">Follow Us</h5>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/Disney/" class="social-link" target="_blank">📘 Facebook</a>
+                        <a href="https://www.instagram.com/disney/?hl=en" class="social-link" target="_blank">📷 Instagram</a>
+                        <a href="https://x.com/DisneyStudios?lang=en" class="social-link" target="_blank">🐦 Twitter</a>
+                        <a href="https://www.youtube.com/disney" class="social-link" target="_blank">🎬 YouTube</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Copyright -->
+            <div class="footer-bottom">
+                <hr class="footer-divider">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <p class="copyright">&copy; 2025 Disney Store. All rights reserved.</p>
+                    </div>
+                    <div class="col-md-6 text-md-end">
+                        <a href="https://privacy.thewaltdisneycompany.com/en/current-privacy-policy/" class="footer-link" target="_blank">Privacy Policy</a>
+                        <a href="https://disneytermsofuse.com/" class="footer-link" target="_blank">Terms of Use</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>

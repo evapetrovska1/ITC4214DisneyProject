@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.http import JsonResponse
 from django.db import models
+from django.db.models import Q
 
 
 # ------------------ VIEW FOR LISTING ALL OF THE PRODUCTS ------------------ 
@@ -13,6 +14,7 @@ def product_list(request):
     color_id = request.GET.get("color")
     min_price = request.GET.get("min_price")
     max_price = request.GET.get("max_price")
+    search_query = request.GET.get("q") # Get the search query
 
     # Start with all of the products
     products = Product.objects.all()
@@ -37,6 +39,13 @@ def product_list(request):
     
     if max_price:
         products = products.filter(price__lte=max_price)
+
+    # ----- SEARCH FILTER -----------
+    if search_query:
+        products = products.filter(
+            Q(name__icontains=search_query) |   # Searching by name 
+            Q(color__name__icontains=search_query)  # Searching by color (both are case insensitive)
+        )
 
     # Get the main categories (the parent ones) and the colors to be displayed
     main_categories = Category.objects.filter(parent__isnull=True)
@@ -67,6 +76,7 @@ def product_list(request):
         'selected_color_name': selected_color_name, # Get name of color
         'min_price': min_price,
         'max_price': max_price,
+        'search_query': search_query,
     }
 
     return render(request, 'products/product_list.html', context)
@@ -126,8 +136,17 @@ def rate_product(request):
     
     product = get_object_or_404(Product, id=product_id)
     
-    # Update or create rating using ProductRating model
-    ProductRating.objects.update_or_create(
+    # Check if user has already rated this product
+    existing_rating = ProductRating.objects.filter(
+        product=product,
+        user=request.user
+    ).first()
+
+    if existing_rating:
+        return JsonResponse({'success': False, 'error': 'You have already rated this product.'})
+    
+    # Otherwise create rating using ProductRating model
+    ProductRating.objects.create(
         product=product,
         user=request.user,
         defaults={'stars': stars}
@@ -144,3 +163,4 @@ def rate_product(request):
         'count': count,
         'your_rating': stars
     })
+

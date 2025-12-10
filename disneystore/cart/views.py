@@ -8,6 +8,8 @@ from accounts.models import Address, Order, OrderItem
 from django.urls import reverse
 import time
 from django.contrib.auth import get_user_model
+from products.models import Product
+from django.db import transaction
 
 # ------------------ VIEW FOR ADDING ITEMS TO CART  ------------------
 def add_to_cart(request, product_id):
@@ -29,7 +31,9 @@ def add_to_cart(request, product_id):
             'id': product.id,
             'name': product.name,
             'price': str(product.price),
-            'quantity': 1 # Initialize the quantity to 1
+            'quantity': 1, # Initialize the quantity to 1
+            'image_url': product.image.url if product.image else None,
+            'description': product.description,
         }
 
     request.session['cart'] = cart
@@ -285,29 +289,45 @@ def complete_order(request):
 
     total_price = sum(float(item['price']) * item['quantity'] for item in cart.values())
 
-    # Create order
-    order = Order.objects.create(
-        user=user,
-        total_price=total_price,
-        status='Processing'
-    )
+    try:
+        # Using transaction.atomic to ensure all operations complete togethe
+        with transaction.atomic():
+            # Create order
+            order = Order.objects.create(
+                user=user,
+                total_price=total_price,
+                status='Processing'
+            )
 
-    # Save items
-    for item in cart.values():
-        OrderItem.objects.create(
-            order=order,
-            product_name=item['name'],
-            product_price=item['price'],
-            quantity=item['quantity']
-        )
+            for product_id_str, item in cart.items():
+                product = Product.objects.get(id=int(product_id_str))
+                quantity = item['quantity']
 
-    # Clear cart
-    request.session['cart'] = {}
-    request.session.modified = True
+                # Create order items
+                OrderItem.objects.create(
+                    order=order,
+                    product_name=item['name'],
+                    product_price=item['price'],
+                    quantity=item['quantity']
+                )
 
-    request.session['last_order_id'] = order.id
-    messages.success(request, f"Order #{order.id} placed successfully!")
-    return redirect('cart:order_success')
+                # Decrease the stock
+                product.stock -= quantity
+                product.save()
+        
+            # Clear cart
+            request.session['cart'] = {}
+            request.session.modified = True
+
+            request.session['last_order_id'] = order.id
+            messages.success(request, f"Order #{order.id} placed successfully!")
+            return redirect('cart:order_success')
+    
+    # Handle exception
+    except Exception as e:
+        messages.error(request, f"An error occurred while processing your order: {str(e)}")
+        return redirect('cart:checkout')
+
 
 
 # ------------------ VIEW FOR SUCCESS  ------------------

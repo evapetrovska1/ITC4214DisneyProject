@@ -140,6 +140,110 @@ NAVIGATION BAR (ENTIRE SITE)
 }
 
 
+
+/* ------------------------------- 
+FOOTER
+------------------------------- */
+.disney-footer {
+    background: linear-gradient(135deg, #255194 0%, #457dd1 100%);
+    color: white;
+    padding: 40px 0 20px;
+    margin-top: 50px;
+    font-family: 'Subtitle', Arial, sans-serif;;
+}
+
+.footer-logo {
+    height: 50px;
+    width: auto;
+    margin-bottom: 15px;
+}
+
+.footer-description {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    line-height: 1.5;
+}
+
+.footer-heading {
+    font-weight: bold;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+    color: white;
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-links li {
+    margin-bottom: 8px;
+}
+
+.footer-links a,
+.social-link {
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    opacity: 0.8;
+}
+
+.footer-links a:hover,
+.social-link:hover {
+    color: #ffd700;
+    opacity: 1;
+    transform: translateX(5px);
+    display: inline-block;
+}
+
+.social-links {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.footer-divider {
+    border-color: rgba(255, 255, 255, 0.3);
+    margin: 20px 0;
+}
+
+.copyright {
+    margin: 0;
+    opacity: 0.8;
+    font-size: 0.9rem;
+}
+
+.footer-link {
+    color: white;
+    text-decoration: none;
+    margin-left: 20px;
+    font-size: 0.9rem;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+.footer-link:hover {
+    opacity: 1;
+    color: #ffd700;
+}
+
+/* Design for smaller screens */
+@media (max-width: 768px) {
+    .dreamworks-footer {
+        text-align: center;
+    }
+    
+    .social-links {
+        align-items: center;
+    }
+    
+    .footer-link {
+        margin: 0 10px;
+    }
+}
+
+
 /* ------------------------------- 
 NAVIGATION BAR (EMPLOYEES)
 ------------------------------- */

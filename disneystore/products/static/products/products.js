@@ -321,6 +321,4 @@ $(document).ready(function() {
 
     });
 
-
-
 });
