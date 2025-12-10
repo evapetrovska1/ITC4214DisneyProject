@@ -20,15 +20,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Check if we're on Render (production)
 if 'RENDER' in os.environ:
-    # Render PostgreSQL
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'disneydb_htzp',
-            'USER': 'disneydb_htzp_user',
-            'PASSWORD': os.environ.get('DB_PASSWORD'),  # ← use environment variable
-            'HOST': 'dpg-d4svri2li9vc73c8sk6g-a',
-            'PORT': '5432',
+            'NAME': os.environ.get('DB_NAME'),
+            'USER': os.environ.get('DB_USER'),
+            'PASSWORD': os.environ.get('DB_PASSWORD'),
+            'HOST': os.environ.get('DB_HOST'),
+            'PORT': os.environ.get('DB_PORT', '5432'),
         }
     }
 else:
