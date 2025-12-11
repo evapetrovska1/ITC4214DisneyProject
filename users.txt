@@ -1,0 +1,5 @@
+            
+USERS:
+username: user1 password: .H314aJ7XEUU
+username: admin password: 1234
+username: employee1 name: employee lastname: 1 password: a4Bb]Kr78ToL
