@@ -18,27 +18,27 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Check if we're on Render (production)
+# Check if we're on Render
 if 'RENDER' in os.environ:
+    # PostgreSQL for Render PRODUCTION
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': os.environ.get('DB_NAME'),
-            'USER': os.environ.get('DB_USER'),
-            'PASSWORD': os.environ.get('DB_PASSWORD'),
-            'HOST': os.environ.get('DB_HOST'),
-            'PORT': os.environ.get('DB_PORT', '5432'),
+            'NAME': 'disneydb_htzp',  # From your screenshot
+            'USER': 'disneydb_htzp_user',  # From your screenshot
+            'PASSWORD': 'YOUR_ACTUAL_PASSWORD_HERE',  # Get from next step
+            'HOST': 'dpg-d4svri2li9vc73c8sk6g-a',  # From your screenshot
+            'PORT': '5432',
         }
     }
 else:
-    # Local SQLite
+    # SQLite for LOCAL development
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
@@ -49,7 +49,7 @@ SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['itc4214disneyproject-1.onrender.com/']
+ALLOWED_HOSTS = ['itc4214disneyproject-1.onrender.com']
 
 
 # Application definition
@@ -109,7 +109,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'disneystore.wsgi.application'
 
-
+    
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
