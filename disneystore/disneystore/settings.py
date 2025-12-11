@@ -18,27 +18,15 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Check if we're on Render
-if 'RENDER' in os.environ:
-    # PostgreSQL for Render PRODUCTION
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'disneydb_htzp',  # From your screenshot
-            'USER': 'disneydb_htzp_user',  # From your screenshot
-            'PASSWORD': 'YOUR_ACTUAL_PASSWORD_HERE',  # Get from next step
-            'HOST': 'dpg-d4svri2li9vc73c8sk6g-a',  # From your screenshot
-            'PORT': '5432',
-        }
-    }
-else:
-    # SQLite for LOCAL development
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
+import dj_database_url
+
+DATABASES = {
+    'default': dj_database_url.config(
+        default=os.environ.get('DATABASE_URL'),
+        conn_max_age=600,
+        conn_health_checks=True
+    )
+}
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
