@@ -59,8 +59,18 @@ INSTALLED_APPS = [
     'employee_dash',
     'cart',
     'pages',
+    'cloudinary',
+    'cloudinary_storage',
 ]
 
+# ONLINE FILE STORAGE
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': os.environ.get('CLOUDINARY_API_KEY'),
+    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET'),
+}
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -137,10 +147,6 @@ STATICFILES_DIRS = [
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
-
-# Media files (Uploaded images like product photos)
-MEDIA_URL = '/media/'  # URL to access media files in browser
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Folder where images are stored on server
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
